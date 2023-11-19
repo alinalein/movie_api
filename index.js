@@ -4,19 +4,49 @@ const express = require('express'),
 
 app.use(express.static('public'));
 
-let topMovies = [
+let movies = [
     { title: 'Harry Potter and the Sorcerer\'s Stone', genre: 'Fantasy', rating: 8.5 },
     { title: 'Lord of the Rings', genre: 'Adventure', rating: 9.0 },
     { title: 'Twilight', genre: 'Romance', rating: 6.2 }
 ];
 
 app.get('/movies', (req, res) => {
-    res.json({ 'Top 10 Movies': topMovies });
+    res.json(movies);
 });
 
-app.get('/', (req, res) => {
-    res.send('Welcome to the best Movies Platform ever!');
+app.get('/movies/:movie', (req, res) => {
+    res.json( );
 });
+
+app.get('/movies/:genre', (req, res) => {
+    res.json(  );
+});
+
+app.get('/movies/:director', (req, res) => {
+    res.json(  );
+});
+
+app.post('/users/register/:name', (req, res) => {
+    res.status(201).send('User XY has been successfully registered');
+});
+
+app.put('/users/update/:id/:username', (req, res) => {
+    res.status(201).send('Username XY was successfully updated');
+});
+
+app.put('/movies/add/:movie]/:id', (req, res) => {
+    res.status(201).send('Movie XY was successfully added to the favorites list');
+});
+
+app.delete('/movies/remove/:movie/:id', (req, res) => {
+    res.status(201).send('Movie XY was successfully removed from the favorites list');
+});
+
+app.delete('/users/deregister/:id', (req, res) => {
+    res.status(201).send('User email XY has been removed');
+});
+
+//directs to the documentation.html
 app.use(morgan('common'));
 
 app.use((err, req, res, next) => {
