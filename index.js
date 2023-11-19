@@ -5,16 +5,16 @@ const express = require('express'),
 app.use(express.static('public'));
 
 let movies = [
-    { title: 'Harry Potter and the Sorcerer\'s Stone', genre: 'Fantasy', rating: 8.5 },
-    { title: 'Lord of the Rings', genre: 'Adventure', rating: 9.0 },
-    { title: 'Twilight', genre: 'Romance', rating: 6.2 }
+    { movie: 'Harry Potter and the Sorcerer\'s Stone', genre: 'Fantasy', rating: 8.5 },
+    { movie: 'Lord of the Rings', genre: 'Adventure', rating: 9.0 },
+    { movie: 'Twilight', genre: 'Romance', rating: 6.2 }
 ];
 
 app.get('/movies', (req, res) => {
     res.json(movies);
 });
 
-app.get('/movies/:movie', (req, res) => {
+app.get('/movies/:title', (req, res) => {
     res.json( );
 });
 
@@ -34,11 +34,11 @@ app.put('/users/update/:id/:username', (req, res) => {
     res.status(201).send('Username XY was successfully updated');
 });
 
-app.put('/movies/add/:movie]/:id', (req, res) => {
+app.put('/movies/add/:title/:id', (req, res) => {
     res.status(201).send('Movie XY was successfully added to the favorites list');
 });
 
-app.delete('/movies/remove/:movie/:id', (req, res) => {
+app.delete('/movies/remove/:title/:id', (req, res) => {
     res.status(201).send('Movie XY was successfully removed from the favorites list');
 });
 
