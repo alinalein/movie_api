@@ -18,6 +18,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to the best Movies Platform ever!');
 });
 app.use(morgan('common'));
+
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).send('Internal Server Error');

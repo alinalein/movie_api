@@ -2,6 +2,8 @@
 It is the server-side part of the web application. The user is given access to details about various films, directors and genres. Users will be able to sign up, update their
 personal information, and create a list of their favorite movies.
 
+# Start-up command line instructions:
+
 # API Endpoints
 - /
 - /documentation

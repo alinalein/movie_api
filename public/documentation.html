@@ -1,12 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Documention for the Movie API</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 </head>
+
 <body>
-    <p>The API should retrieve the URL from the client , the request of the client and return a corresponding response by the server. The server will fetch the data from a database.</p>
+
+    <h1 class="text-center">Documention for the Movie_API</h1><br>
+    <p class="text-center">The API should retrieve the URL from the client , the request of the client and return a
+        corresponding response
+        by the server. The server will fetch the data from a database.</p><br><br>
+    <div class="container">
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th scope="col">Business Logic</th>
+                    <th scope="col">URL</th>
+                    <th scope="col">HTTP Method</th>
+                    <th scope="col">Request body data format</th>
+                    <th scope="col">Response body data format</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Return a list of ALL movies to the user</td>
+                    <td>/movies</td>
+                    <td>GET</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
+                    <td>/movies/[movie]</td>
+                    <td>GET</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
+                    <td>/movies/[genre]</td>
+                    <td>GET</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Return data about a director (bio, birth year, death year) by name</td>
+                    <td>/movies/[director]</td>
+                    <td>GET</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>Allow new users to register</td>
+                    <td>users/register/[name]</td>
+                    <td>POST</td>
+                    <td></td>
+                    <td>A JSON object about the user will be added, including the following data: {....}</td>
+                </tr>
+                <tr>
+                    <td>Allow users to update their user info (username)</td>
+                    <td>users/update/[ID]/[username]</td>
+                    <td>PUT</td>
+                    <td></td>
+                    <td>A text message that will tell the user that his data was updated</td>
+                </tr>
+                <tr>
+                    <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later)</td>
+                    <td>movies/add/[movie]/[ID]</td>
+                    <td>PUT</td>
+                    <td></td>
+                    <td>A text message that will tell the user if the movie was added to the list</td>
+                </tr>
+                <tr>
+                    <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later)</td>
+                    <td>movies/remove/[movie]/[ID]</td>
+                    <td>DELETE</td>
+                    <td></td>
+                    <td>A text message that informs the user if the movie was successfully removed</td>
+                </tr>
+                <tr>
+                    <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on this later)</td>
+                    <td>/users/deregister/[ID]</td>
+                    <td>DELETE</td>
+                    <td></td>
+                    <td>A text message that informs the user if the profile was successfully deleted</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 
 </html>
