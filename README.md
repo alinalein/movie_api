@@ -3,11 +3,12 @@ It is the server-side part of the web application. The user is given access to d
 personal information, and create a list of their favorite movies.
 
 # Start-up command line instructions:
+- Dependencies: npm install --save express uuid body-parser
+- Dev Dependencies: npm install nodemon --save-dev   and   npm install eslint --save-dev
 
 # API Endpoints
-- /
-- /documentation
 - /movies
+- ...
 
 # Technology Stack 
 - Node.js
