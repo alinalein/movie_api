@@ -1,13 +1,16 @@
 const express = require('express'),
+    bodyParser = require('body-parser'),
     morgan = require('morgan'),
     app = express();
+
+app.use(bodyParser.json());
 
 app.use(express.static('public'));
 
 let movies = [
-    { movie: 'Harry Potter and the Sorcerer\'s Stone', genre: 'Fantasy', rating: 8.5 },
-    { movie: 'Lord of the Rings', genre: 'Adventure', rating: 9.0 },
-    { movie: 'Twilight', genre: 'Romance', rating: 6.2 }
+    { title: 'Harry Potter and the Sorcerer\'s Stone', genre: 'Fantasy', rating: 8.5, director: 'Chris Columbus'},
+    { title: 'Lord of the Rings', genre: 'Adventure', rating: 9.0, director: 'Peter Jackson'},
+    { title: 'Twilight', genre: 'Romance', rating: 6.2, director: 'Catherine Hardwicke'}
 ];
 
 app.get('/movies', (req, res) => {
@@ -15,15 +18,24 @@ app.get('/movies', (req, res) => {
 });
 
 app.get('/movies/:title', (req, res) => {
-    res.json( );
+    res.json(movies.find((movie) => {
+        return movie.title === req.params.title }));
 });
 
 app.get('/movies/:genre', (req, res) => {
-    res.json(  );
+    const requestedGenre = req.params.genre;
+    console.log('Requested Genre:', requestedGenre);
+
+    const foundMovie = movies.find((movie) => {
+        return movie.genre === requestedGenre;
+    });
+
+    res.json(foundMovie);
 });
 
 app.get('/movies/:director', (req, res) => {
-    res.json(  );
+    res.json(movies.find( (movie) => {
+        return movie.director === req.params.director}));
 });
 
 app.post('/users/register/:name', (req, res) => {
