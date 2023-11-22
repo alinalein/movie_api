@@ -30,7 +30,11 @@ app.get('/movies/:genre', (req, res) => {
         return movie.genre === requestedGenre;
     });
 
-    res.json(foundMovie);
+    if (foundMovie) {
+        res.json(foundMovie);
+    } else {
+        res.status(404).json({ error: 'Movie not found for the specified genre' });
+    }
 });
 
 app.get('/movies/:director', (req, res) => {
