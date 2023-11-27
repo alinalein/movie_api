@@ -40,7 +40,7 @@
                     <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
                     <td>/movies/[title]</td>
                     <td>GET</td>
-                    <td>http://localhost:8080/movies/:title</td>
+                    <td>http://localhost:8080/movies/title/:title</td>
                     <td>None</td>
                     <td>A JSON object holding data about a specific movie</td>
                 </tr>
@@ -48,7 +48,7 @@
                     <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
                     <td>/movies/[genre]</td>
                     <td>GET</td>
-                    <td>http://localhost:8080/movies/:genre</td>
+                    <td>http://localhost:8080/movies/genre/:genre</td>
                     <td>None</td>
                     <td>A JSON object holding data about all movies of specific gerne</td>
                 </tr>
@@ -56,7 +56,7 @@
                     <td>Return data about a director (bio, birth year, death year) by name</td>
                     <td>/movies/[director]</td>
                     <td>GET</td>
-                    <td>http://localhost:8080/movies/:director</td>
+                    <td>http://localhost:8080/movies/director/:director</td>
                     <td>None</td>
                     <td>A JSON object holding data about a specific director</td>
                 </tr>
@@ -64,7 +64,7 @@
                     <td>Allow new users to register</td>
                     <td>users/register/[name]</td>
                     <td>POST</td>
-                    <td>http://localhost:8080/users/register/:name</td>
+                    <td>http://localhost:8080/users/register/:username</td>
                     <td>A JSON object about the user will be added, including the following data: {....}</td>
                     <td>A JSON object holding data about the user that registered</td>
                 </tr>

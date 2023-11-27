@@ -17,32 +17,22 @@ app.get('/movies', (req, res) => {
     res.json(movies);
 });
 
-app.get('/movies/:title', (req, res) => {
+app.get('/movies/title/:title', (req, res) => {
     res.json(movies.find((movie) => {
         return movie.title === req.params.title }));
 });
 
-app.get('/movies/:genre', (req, res) => {
-    const requestedGenre = req.params.genre;
-    console.log('Requested Genre:', requestedGenre);
-
-    const foundMovie = movies.find((movie) => {
-        return movie.genre === requestedGenre;
-    });
-
-    if (foundMovie) {
-        res.json(foundMovie);
-    } else {
-        res.status(404).json({ error: 'Movie not found for the specified genre' });
-    }
-});
-
-app.get('/movies/:director', (req, res) => {
+app.get('/movies/director/:director', (req, res) => {
     res.json(movies.find( (movie) => {
         return movie.director === req.params.director}));
 });
 
-app.post('/users/register/:name', (req, res) => {
+app.get('/movies/genre/:genre', (req, res) => {
+ res.json(movies.find((movie) => {
+    return movie.genre === req.params.genre }));
+});
+
+app.post('/users/register/:username', (req, res) => {
     res.status(201).send('User XY has been successfully registered');
 });
 
