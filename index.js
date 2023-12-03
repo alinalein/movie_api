@@ -21,7 +21,7 @@ app.get('/movies', async (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            res.status(400).send('Movies could not be loaded-Err: ' + err);
+            res.status(400).send('An Error occurred: ' + err);
         })
 });
 
@@ -46,7 +46,7 @@ app.get('/movies/director/:Director', async (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            res.status(400).send('Can not find a Director with this name-Err: ' + err);
+            res.status(400).send('An Error occurred:  ' + err);
         })
 });
 
@@ -57,25 +57,74 @@ app.get('/movies/genre/:Genre', async (req, res) => {
         })
         .catch((err) => {
             console.log(err);
-            res.status(400).send('Can\'t find the genre-Err: ' + err)
+            res.status(400).send('Can\'t find the genre-Err: ' + err);
         })
 });
 
-// app.post('/users/register/:username', (req, res) => {
-//     res.status(201).send('User XY has been successfully registered');
-// });
+app.post('/users/register/', async (req, res) => {
+    await Users.findOne({Username: req.body.userName})
+    .then((user) => {
+        if(user){
+            res.status(200).send('User with ' + req.body.Username + ' already exist');
+        }else{
+            Users.create({
+                Username: req.body.Username,
+                Password: req.body.Password,
+                Email: req.body.Email,
+                Birthday: req.body.Birthday
+            })
+            .then((user) => {
+                res.status(201).json(user);
+            })
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).send('An Error occurred: ' + err);
+    })
+});
 
-// app.put('/users/update/:id/:username', (req, res) => {
-//     res.status(201).send('Username XY was successfully updated');
-// });
+app.put('/users/update/:Username', async (req, res) => {
+    await Users.findOneAndUpdate({Username: req.params.Username}, {$set: {
+        Username: req.body.Username,
+        Password: req.body.Password,
+        Email: req.body.Email,
+        Birthday: req.body.Birthday
+    }}, 
+    {new:true})
+    .then((updatedUser)=>{
+        res.status(201).json(updatedUser);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).send('Couldn\'t update user data: ' + err);
+    })
+});
 
-// app.put('/movies/add/:title/:id', (req, res) => {
-//     res.status(201).send('Movie XY was successfully added to the favorites list');
-// });
+app.put('/users/:Username/movies/add/:MovieID', async (req, res) => {
+    await Users.findOneAndUpdate({Username: req.params.Username}, 
+        {$push: {FavoriteMovies: req.params.MovieID}},
+    {new:true})
+    .then((updatedUser) => {
+        console.log(updatedUser);
+        res.status(201).json(updatedUser);
+    })
+    .catch ((err) => {
+        console.log(err);
+        res.status(400).send('Couldn\t add movie to favorites List-Err: ' + err);
+    })
+});
 
-// app.delete('/movies/remove/:title/:id', (req, res) => {
-//     res.status(201).send('Movie XY was successfully removed from the favorites list');
-// });
+app.delete('/users/:Username/movies/remove/:MovieID', async (req, res) => {
+    await Users.findOneAndRemove({Username: req.params.Username}, {FavoriteMovies: req.params.MovieID})
+    .then((updatedUser) => {
+        res.status(200).json(updatedUser)
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).send('Movie couldn\'t be deleted from favorite Movies-Err: '+ err)  
+    })
+});
 
 // app.delete('/users/deregister/:id', (req, res) => {
 //     res.status(201).send('User email XY has been removed');

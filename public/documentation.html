@@ -36,7 +36,7 @@
                 <td>None</td>
                 <td>A JSON object holding data about all movies with this format:
                     <pre>
-                         Movie:{
+                            {
                                 Title: {type: String, required: true},
                                 Description: {type: String, required: true},
                                 Genre: {
@@ -50,7 +50,8 @@
                                 Actors: [String],
                                 ImagePath: String,
                                 Featured: Boolean
-                            }</pre>
+                            },
+                            {...}</pre>
                 </td>
             </tr>
             <tr>
@@ -62,7 +63,7 @@
                 <td>None</td>
                 <td>A JSON object holding data about a specific movie:
                     <pre>
-                        Movie:{
+                            {
                                 Title: {type: String, required: true},
                                 Description: {type: String, required: true},
                                 Genre: {
@@ -87,7 +88,7 @@
                 <td>None</td>
                 <td>A JSON object holding data about a specific gerne:
                     <pre>
-                        Genre:{
+                            {
                                 Name: String,
                                 Description: String
                             }</pre>
@@ -101,7 +102,7 @@
                 <td>None</td>
                 <td>A JSON object holding data about a specific director
                     <pre>
-                        Director:{
+                            {
                                 Name: String,
                                 Bio: String,
                                 Birth: String
@@ -110,50 +111,66 @@
             </tr>
             <tr>
                 <td>Allow new users to register</td>
-                <td>users/register/[Username]</td>
+                <td>users/register</td>
                 <td>POST</td>
-                <td>http://localhost:8080/users/register/:Username</td>
-                <td>A JSON object about the user will be added, including the following data: {....}</td>
+                <td>http://localhost:8080/users/register</td>
+                <td>A JSON object about the user will be added, including the following data:
+                    <pre>
+                        {
+                            Username: {type: String, required: true},
+                            Password: {type: String, required: true},
+                            Email: {type: String, required: true},
+                            Birthday: Date
+                        }</pre>
+                </td>
                 <td>A JSON object holding data about the user that registered</td>
             </tr>
             <tr>
-                <td>Allow users to update their user info (username)</td>
-                <td>users/update/[Id]/[Username]</td>
+                <td>Allow users to update their user info per Username</td>
+                <td>users/update/[Username]</td>
                 <td>PUT</td>
-                <td>http://localhost:8080/users/update/:Id/:Username</td>
-                <td>None</td>
-                <td>A text message that will tell the user that his data was updated</td>
+                <td>http://localhost:8080/users/update/:Username</td>
+                <td>A JSON object about the data of the user that is supposed to be updated:
+                    <pre>
+                        {
+                            Username: {type: String, required: true},
+                            Password: {type: String, required: true},
+                            Email: {type: String, required: true},
+                            Birthday: Date
+                        }</pre>
+                </td>
+                <td>JSON object with the updated info about the user</td>
             </tr>
             <tr>
                 <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been
                     added—more on this later)</td>
-                <td>movies/add/[title]/[id]</td>
+                <td>users/[Username]/movies/add/[MovieID]</td>
                 <td>PUT</td>
-                <td>http://localhost:8080/movies/add/:title/:id</td>
+                <td>http://localhost:8080/users/:Username/movies/add/:MovieID</td>
                 <td>None</td>
-                <td>A text message that will tell the user if the movie was added to the favorites list</td>
+                <td>JSON object with the updated info about the user including the favorite Movie</td>
             </tr>
             <tr>
                 <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has
                     been removed—more on this later)</td>
-                <td>movies/remove/[title]/[id]</td>
+                <td>users/[Username]/movies/remove/[MovieId]</td>
                 <td>DELETE</td>
-                <td>http://localhost:8080/movies/remove/:title/:id</td>
+                <td>http://localhost:8080//users/:Username/movies/remove/:MovieID</td>
                 <td>None</td>
-                <td>A text message that informs the user if the movie was successfully removed from favorites list</td>
+                <td>JSON object with the updated info about the user including the favorite Movies</td>
             </tr>
             <tr>
                 <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on
                     this later)</td>
-                <td>/users/deregister/[id]</td>
+                <td>/users/deregister/[Username]</td>
                 <td>DELETE</td>
-                <td>http://localhost:8080/users/deregister/:id</td>
+                <td>http://localhost:8080/users/deregister/:Username</td>
                 <td>None</td>
                 <td>A text message that informs the user if the profile was successfully deleted</td>
             </tr>
         </tbody>
     </table>
-
+   </div>
 </body>
 
 </html>
