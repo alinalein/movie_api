@@ -16,53 +16,27 @@
         corresponding response
         by the server. The server will fetch the data from a database.</p><br><br>
 
-        <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th scope="col">Business Logic</th>
-                    <th scope="col">URL</th>
-                    <th scope="col">HTTP Method</th>
-                    <th scope="col">Query parameter</th>
-                    <th scope="col">Request body data format</th>
-                    <th scope="col">Response body data format</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Return a list of ALL movies to the user</td>
-                    <td>/movies</td>
-                    <td>GET</td>
-                    <td>http://localhost:8080/movies</td>
-                    <td>None</td>
-                    <td>A JSON object holding data about all movies with this format: 
-                        <pre>
-                        {
-                            Title: {type: String, required: true},
-                            Description: {type: String, required: true},
-                            Genre: {
-                                Name: String,
-                                Description: String
-                            },
-                            Director: {
-                                Name: String,
-                                Bio: String
-                            },
-                            Actors: [String],
-                            ImagePath: String,
-                            Featured: Boolean
-                        }
-                        </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
-                    <td>/movies/title/[Title]</td>
-                    <td>GET</td>
-                    <td>http://localhost:8080/movies/title/:Title</td>
-                    <td>None</td>
-                    <td>A JSON object holding data about a specific movie:
-                        <pre>
-                            {
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th scope="col">Business Logic</th>
+                <th scope="col">URL</th>
+                <th scope="col">HTTP Method</th>
+                <th scope="col">Query parameter</th>
+                <th scope="col">Request body data format</th>
+                <th scope="col">Response body data format</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Return a list of ALL movies to the user</td>
+                <td>/movies</td>
+                <td>GET</td>
+                <td>http://localhost:8080/movies</td>
+                <td>None</td>
+                <td>A JSON object holding data about all movies with this format:
+                    <pre>
+                         Movie:{
                                 Title: {type: String, required: true},
                                 Description: {type: String, required: true},
                                 Genre: {
@@ -76,83 +50,109 @@
                                 Actors: [String],
                                 ImagePath: String,
                                 Featured: Boolean
-                            }
-                            </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-                    <td>/movies/genre/[Genre]</td>
-                    <td>GET</td>
-                    <td>http://localhost:8080/movies/genre/:Genre</td>
-                    <td>None</td>
-                    <td>A JSON object holding data about a specific gerne:
-                        <pre>
+                            }</pre>
+                </td>
+            </tr>
+            <tr>
+                <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single
+                    movie by title to the user</td>
+                <td>/movies/title/[Title]</td>
+                <td>GET</td>
+                <td>http://localhost:8080/movies/title/:Title</td>
+                <td>None</td>
+                <td>A JSON object holding data about a specific movie:
+                    <pre>
+                        Movie:{
+                                Title: {type: String, required: true},
+                                Description: {type: String, required: true},
                                 Genre: {
                                     Name: String,
                                     Description: String
-                                }
-                            </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Return data about a director (bio, birth year, death year) by name</td>
-                    <td>/movies/director/[Director]</td>
-                    <td>GET</td>
-                    <td>http://localhost:8080/movies/director/:Director</td>
-                    <td>None</td>
-                    <td>A JSON object holding data about a specific director
-                        <pre>
-                            Director: {
+                                },
+                                Director: {
+                                    Name: String,
+                                    Bio: String
+                                },
+                                Actors: [String],
+                                ImagePath: String,
+                                Featured: Boolean
+                            }</pre>
+                </td>
+            </tr>
+            <tr>
+                <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
+                <td>/movies/genre/[Genre]</td>
+                <td>GET</td>
+                <td>http://localhost:8080/movies/genre/:Genre</td>
+                <td>None</td>
+                <td>A JSON object holding data about a specific gerne:
+                    <pre>
+                        Genre:{
+                                Name: String,
+                                Description: String
+                            }</pre>
+                </td>
+            </tr>
+            <tr>
+                <td>Return data about a director (bio, birth year, death year) by name</td>
+                <td>/movies/director/[Director]</td>
+                <td>GET</td>
+                <td>http://localhost:8080/movies/director/:Director</td>
+                <td>None</td>
+                <td>A JSON object holding data about a specific director
+                    <pre>
+                        Director:{
                                 Name: String,
                                 Bio: String,
                                 Birth: String
-                            },
-                        </pre>
-                    </td>
-                </tr>
-                <tr>
-                    <td>Allow new users to register</td>
-                    <td>users/register/[Username]</td>
-                    <td>POST</td>
-                    <td>http://localhost:8080/users/register/:Username</td>
-                    <td>A JSON object about the user will be added, including the following data: {....}</td>
-                    <td>A JSON object holding data about the user that registered</td>
-                </tr>
-                <tr>
-                    <td>Allow users to update their user info (username)</td>
-                    <td>users/update/[Id]/[Username]</td>
-                    <td>PUT</td>
-                    <td>http://localhost:8080/users/update/:Id/:Username</td>
-                    <td>None</td>
-                    <td>A text message that will tell the user that his data was updated</td>
-                </tr>
-                <tr>
-                    <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been added—more on this later)</td>
-                    <td>movies/add/[title]/[id]</td>
-                    <td>PUT</td>
-                    <td>http://localhost:8080/movies/add/:title/:id</td>
-                    <td>None</td>
-                    <td>A text message that will tell the user if the movie was added to the favorites list</td>
-                </tr>
-                <tr>
-                    <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has been removed—more on this later)</td>
-                    <td>movies/remove/[title]/[id]</td>
-                    <td>DELETE</td>
-                    <td>http://localhost:8080/movies/remove/:title/:id</td>
-                    <td>None</td>
-                    <td>A text message that informs the user if the movie was successfully removed from favorites list</td>
-                </tr>
-                <tr>
-                    <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on this later)</td>
-                    <td>/users/deregister/[id]</td>
-                    <td>DELETE</td>
-                    <td>http://localhost:8080/users/deregister/:id</td>
-                    <td>None</td>
-                    <td>A text message that informs the user if the profile was successfully deleted</td>
-                </tr>
-            </tbody>
-        </table>
+                            }</pre>
+                </td>
+            </tr>
+            <tr>
+                <td>Allow new users to register</td>
+                <td>users/register/[Username]</td>
+                <td>POST</td>
+                <td>http://localhost:8080/users/register/:Username</td>
+                <td>A JSON object about the user will be added, including the following data: {....}</td>
+                <td>A JSON object holding data about the user that registered</td>
+            </tr>
+            <tr>
+                <td>Allow users to update their user info (username)</td>
+                <td>users/update/[Id]/[Username]</td>
+                <td>PUT</td>
+                <td>http://localhost:8080/users/update/:Id/:Username</td>
+                <td>None</td>
+                <td>A text message that will tell the user that his data was updated</td>
+            </tr>
+            <tr>
+                <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been
+                    added—more on this later)</td>
+                <td>movies/add/[title]/[id]</td>
+                <td>PUT</td>
+                <td>http://localhost:8080/movies/add/:title/:id</td>
+                <td>None</td>
+                <td>A text message that will tell the user if the movie was added to the favorites list</td>
+            </tr>
+            <tr>
+                <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has
+                    been removed—more on this later)</td>
+                <td>movies/remove/[title]/[id]</td>
+                <td>DELETE</td>
+                <td>http://localhost:8080/movies/remove/:title/:id</td>
+                <td>None</td>
+                <td>A text message that informs the user if the movie was successfully removed from favorites list</td>
+            </tr>
+            <tr>
+                <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on
+                    this later)</td>
+                <td>/users/deregister/[id]</td>
+                <td>DELETE</td>
+                <td>http://localhost:8080/users/deregister/:id</td>
+                <td>None</td>
+                <td>A text message that informs the user if the profile was successfully deleted</td>
+            </tr>
+        </tbody>
+    </table>
 
 </body>
 

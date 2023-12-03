@@ -16,48 +16,49 @@ app.use(express.urlencoded({ extended: true }));
 
 app.get('/movies', async (req, res) => {
     await Movies.find()
-    .then((movies) => {
-        res.status(201).json(movies);
-    })
-   .catch((err) => {
-    console.log(err);
-    res.status(400).send('Movies could not be loaded-Err: ' + err);
-   })
+        .then((movies) => {
+            res.status(201).json(movies);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send('Movies could not be loaded-Err: ' + err);
+        })
 });
 
+// additional message in case the movie is not in the DB 
 app.get('/movies/title/:Title', async (req, res) => {
-    await Movies.findOne({Title: req.params.Title})
-    .then((movie) =>{
-        res.status(201).json(movie);
-    })
-    .catch((err)=>{
+    try {
+        const foundMovie = await Movies.findOne({ Title: req.params.Title })
+        if (!foundMovie) {
+            return res.status(200).send('Can\'t find a movie with this title: ' + req.params.Title)
+        }
+        res.status(201).json(foundMovie);
+    } catch (err) {
         console.log(err);
-        res.send(400).send('Can not find the movie-Err: ' + err);
-    })
+        res.send(400).send('An Error occurred: ' + err);
+    }
 });
 
 app.get('/movies/director/:Director', async (req, res) => {
-    await Movies.findOne({'Director.Name': req.params.Director})
-    .then((movie) => {
-    res.status(201).json(movie.Director);
-    })
-    .catch((err) => {
-        console.log(err);
-        res.status(400).send('Can not find a Director with this name-Err: ' + err);
-    })
-  
-  
+    await Movies.findOne({ 'Director.Name': req.params.Director }, 'Director')
+        .then((movies) => {
+            res.status(201).json(movies.Director);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send('Can not find a Director with this name-Err: ' + err);
+        })
 });
 
 app.get('/movies/genre/:Genre', async (req, res) => {
-    await Movies.findOne({'Genre.Name': req.params.Genre})
-    .then((movie) => {
-        res.status(201).json(movie.Genre);
-    })
-    .catch((err) => {
-        console.log(err);
-        res.status(400).send("Can't find the genre-Err: " +  err)
-    })
+    await Movies.findOne({ 'Genre.Name': req.params.Genre }, 'Genre')
+        .then((movies) => {
+            res.status(201).json(movies.Genre);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send('Can\'t find the genre-Err: ' + err)
+        })
 });
 
 // app.post('/users/register/:username', (req, res) => {
