@@ -1,58 +1,86 @@
 const express = require('express'),
     bodyParser = require('body-parser'),
     morgan = require('morgan'),
-    app = express();
+    app = express(),
+    mongoose = require('mongoose'),
+    Models = require('./models.js'),
+    Movies = Models.Movie,
+    Users = Models.User;
+
+mongoose.connect('mongodb://localhost:27017/movies_apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
 app.use(bodyParser.json());
-
-app.use(express.static('public'));
-
-let movies = [
-    { title: 'Harry Potter and the Sorcerer\'s Stone', genre: 'Fantasy', rating: 8.5, director: 'Chris Columbus'},
-    { title: 'Lord of the Rings', genre: 'Adventure', rating: 9.0, director: 'Peter Jackson'},
-    { title: 'Twilight', genre: 'Romance', rating: 6.2, director: 'Catherine Hardwicke'}
-];
-
-app.get('/movies', (req, res) => {
-    res.json(movies);
-});
-
-app.get('/movies/title/:title', (req, res) => {
-    res.json(movies.find((movie) => {
-        return movie.title === req.params.title }));
-});
-
-app.get('/movies/director/:director', (req, res) => {
-    res.json(movies.find( (movie) => {
-        return movie.director === req.params.director}));
-});
-
-app.get('/movies/genre/:genre', (req, res) => {
- res.json(movies.find((movie) => {
-    return movie.genre === req.params.genre }));
-});
-
-app.post('/users/register/:username', (req, res) => {
-    res.status(201).send('User XY has been successfully registered');
-});
-
-app.put('/users/update/:id/:username', (req, res) => {
-    res.status(201).send('Username XY was successfully updated');
-});
-
-app.put('/movies/add/:title/:id', (req, res) => {
-    res.status(201).send('Movie XY was successfully added to the favorites list');
-});
-
-app.delete('/movies/remove/:title/:id', (req, res) => {
-    res.status(201).send('Movie XY was successfully removed from the favorites list');
-});
-
-app.delete('/users/deregister/:id', (req, res) => {
-    res.status(201).send('User email XY has been removed');
-});
-
 //directs to the documentation.html
+app.use(express.static('public'));
+app.use(express.urlencoded({ extended: true }));
+
+app.get('/movies', async (req, res) => {
+    await Movies.find()
+    .then((movies) => {
+        res.status(201).json(movies);
+    })
+   .catch((err) => {
+    console.log(err);
+    res.status(400).send('Movies could not be loaded-Err: ' + err);
+   })
+});
+
+app.get('/movies/title/:Title', async (req, res) => {
+    await Movies.findOne({Title: req.params.Title})
+    .then((movie) =>{
+        res.status(201).json(movie);
+    })
+    .catch((err)=>{
+        console.log(err);
+        res.send(400).send('Can not find the movie-Err: ' + err);
+    })
+});
+
+app.get('/movies/director/:Director', async (req, res) => {
+    await Movies.findOne({'Director.Name': req.params.Director})
+    .then((movie) => {
+    res.status(201).json(movie.Director);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).send('Can not find a Director with this name-Err: ' + err);
+    })
+  
+  
+});
+
+app.get('/movies/genre/:Genre', async (req, res) => {
+    await Movies.findOne({'Genre.Name': req.params.Genre})
+    .then((movie) => {
+        res.status(201).json(movie.Genre);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).send("Can't find the genre-Err: " +  err)
+    })
+});
+
+// app.post('/users/register/:username', (req, res) => {
+//     res.status(201).send('User XY has been successfully registered');
+// });
+
+// app.put('/users/update/:id/:username', (req, res) => {
+//     res.status(201).send('Username XY was successfully updated');
+// });
+
+// app.put('/movies/add/:title/:id', (req, res) => {
+//     res.status(201).send('Movie XY was successfully added to the favorites list');
+// });
+
+// app.delete('/movies/remove/:title/:id', (req, res) => {
+//     res.status(201).send('Movie XY was successfully removed from the favorites list');
+// });
+
+// app.delete('/users/deregister/:id', (req, res) => {
+//     res.status(201).send('User email XY has been removed');
+// });
+
+//uses the common morgan format 
 app.use(morgan('common'));
 
 app.use((err, req, res, next) => {

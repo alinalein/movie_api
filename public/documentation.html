@@ -34,45 +34,96 @@
                     <td>GET</td>
                     <td>http://localhost:8080/movies</td>
                     <td>None</td>
-                    <td>A JSON object holding data about all movies</td>
+                    <td>A JSON object holding data about all movies with this format: 
+                        <pre>
+                        {
+                            Title: {type: String, required: true},
+                            Description: {type: String, required: true},
+                            Genre: {
+                                Name: String,
+                                Description: String
+                            },
+                            Director: {
+                                Name: String,
+                                Bio: String
+                            },
+                            Actors: [String],
+                            ImagePath: String,
+                            Featured: Boolean
+                        }
+                        </pre>
+                    </td>
                 </tr>
                 <tr>
                     <td>Return data (description, genre, director, image URL, whether it’s featured or not) about a single movie by title to the user</td>
-                    <td>/movies/[title]</td>
+                    <td>/movies/title/[Title]</td>
                     <td>GET</td>
-                    <td>http://localhost:8080/movies/title/:title</td>
+                    <td>http://localhost:8080/movies/title/:Title</td>
                     <td>None</td>
-                    <td>A JSON object holding data about a specific movie</td>
+                    <td>A JSON object holding data about a specific movie:
+                        <pre>
+                            {
+                                Title: {type: String, required: true},
+                                Description: {type: String, required: true},
+                                Genre: {
+                                    Name: String,
+                                    Description: String
+                                },
+                                Director: {
+                                    Name: String,
+                                    Bio: String
+                                },
+                                Actors: [String],
+                                ImagePath: String,
+                                Featured: Boolean
+                            }
+                            </pre>
+                    </td>
                 </tr>
                 <tr>
                     <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
-                    <td>/movies/[genre]</td>
+                    <td>/movies/genre/[Genre]</td>
                     <td>GET</td>
-                    <td>http://localhost:8080/movies/genre/:genre</td>
+                    <td>http://localhost:8080/movies/genre/:Genre</td>
                     <td>None</td>
-                    <td>A JSON object holding data about all movies of specific gerne</td>
+                    <td>A JSON object holding data about a specific gerne:
+                        <pre>
+                                Genre: {
+                                    Name: String,
+                                    Description: String
+                                }
+                            </pre>
+                    </td>
                 </tr>
                 <tr>
                     <td>Return data about a director (bio, birth year, death year) by name</td>
-                    <td>/movies/[director]</td>
+                    <td>/movies/director/[Director]</td>
                     <td>GET</td>
-                    <td>http://localhost:8080/movies/director/:director</td>
+                    <td>http://localhost:8080/movies/director/:Director</td>
                     <td>None</td>
-                    <td>A JSON object holding data about a specific director</td>
+                    <td>A JSON object holding data about a specific director
+                        <pre>
+                            Director: {
+                                Name: String,
+                                Bio: String,
+                                Birth: String
+                            },
+                        </pre>
+                    </td>
                 </tr>
                 <tr>
                     <td>Allow new users to register</td>
-                    <td>users/register/[name]</td>
+                    <td>users/register/[Username]</td>
                     <td>POST</td>
-                    <td>http://localhost:8080/users/register/:username</td>
+                    <td>http://localhost:8080/users/register/:Username</td>
                     <td>A JSON object about the user will be added, including the following data: {....}</td>
                     <td>A JSON object holding data about the user that registered</td>
                 </tr>
                 <tr>
                     <td>Allow users to update their user info (username)</td>
-                    <td>users/update/[id]/[username]</td>
+                    <td>users/update/[Id]/[Username]</td>
                     <td>PUT</td>
-                    <td>http://localhost:8080/users/update/:id/:username</td>
+                    <td>http://localhost:8080/users/update/:Id/:Username</td>
                     <td>None</td>
                     <td>A text message that will tell the user that his data was updated</td>
                 </tr>
