@@ -61,8 +61,8 @@ app.get('/movies/genre/:Genre', async (req, res) => {
         })
 });
 
-app.post('/users/register/', async (req, res) => {
-    await Users.findOne({Username: req.body.userName})
+app.post('/users/register', async (req, res) => {
+    await Users.findOne({Username: req.body.Username})
     .then((user) => {
         if(user){
             res.status(200).send('User with ' + req.body.Username + ' already exist');
@@ -116,19 +116,32 @@ app.put('/users/:Username/movies/add/:MovieID', async (req, res) => {
 });
 
 app.delete('/users/:Username/movies/remove/:MovieID', async (req, res) => {
-    await Users.findOneAndRemove({Username: req.params.Username}, {FavoriteMovies: req.params.MovieID})
+    await Users.findOneAndUpdate({Username: req.params.Username},
+        { $pull: {FavoriteMovies: req.params.MovieID}},
+        {new:true})
     .then((updatedUser) => {
-        res.status(200).json(updatedUser)
+        res.status(200).json(updatedUser);
     })
     .catch((err) => {
         console.log(err);
-        res.status(400).send('Movie couldn\'t be deleted from favorite Movies-Err: '+ err)  
+        res.status(400).send('Movie couldn\'t be deleted from favorite Movies-Err: '+ err);
     })
 });
 
-// app.delete('/users/deregister/:id', (req, res) => {
-//     res.status(201).send('User email XY has been removed');
-// });
+app.delete('/users/deregister/:Username', async(req, res) => {
+    await Users.findOneAndDelete({Username: req.params.Username})
+    .then((user) => {
+        if(!user){
+            res.status(200).send('No user with Username: ' + req.params.Username + ' found');
+        }else{
+            res.status(201).send('User with Username: ' + req.params.Username + ' was deleted');
+        }
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(400).send('User couldn\'t be deleted-Err: ' + err);
+    })
+});
 
 //uses the common morgan format 
 app.use(morgan('common'));
