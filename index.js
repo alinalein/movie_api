@@ -106,7 +106,6 @@ app.put('/users/:Username/movies/add/:MovieID', async (req, res) => {
         {$push: {FavoriteMovies: req.params.MovieID}},
     {new:true})
     .then((updatedUser) => {
-        console.log(updatedUser);
         res.status(201).json(updatedUser);
     })
     .catch ((err) => {
