@@ -24,7 +24,7 @@ require('./passport');
 //directs to the documentation.html
 app.use(express.static('public'));
 
-app.get('/movies', passport.authenticate('jwt', {session: false}), async (req, res) => {
+app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
         .then((movies) => {
             res.status(201).json(movies);
@@ -36,7 +36,7 @@ app.get('/movies', passport.authenticate('jwt', {session: false}), async (req, r
 });
 
 // additional message in case the movie is not in the DB 
-app.get('/movies/title/:Title', async (req, res) => {
+app.get('/movies/title/:Title', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const foundMovie = await Movies.findOne({ Title: req.params.Title })
         if (!foundMovie) {
@@ -49,7 +49,7 @@ app.get('/movies/title/:Title', async (req, res) => {
     }
 });
 
-app.get('/movies/director/:Director', async (req, res) => {
+app.get('/movies/director/:Director', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Director.Name': req.params.Director }, 'Director')
         .then((movies) => {
             res.status(201).json(movies.Director);
@@ -60,7 +60,7 @@ app.get('/movies/director/:Director', async (req, res) => {
         })
 });
 
-app.get('/movies/genre/:Genre', async (req, res) => {
+app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Genre.Name': req.params.Genre }, 'Genre')
         .then((movies) => {
             res.status(201).json(movies.Genre);
@@ -72,89 +72,100 @@ app.get('/movies/genre/:Genre', async (req, res) => {
 });
 
 app.post('/users/register', async (req, res) => {
-    await Users.findOne({Username: req.body.Username})
-    .then((user) => {
-        if(user){
-            res.status(200).send('User with ' + req.body.Username + ' already exist');
-        }else{
-            Users.create({
-                Username: req.body.Username,
-                Password: req.body.Password,
-                Email: req.body.Email,
-                Birthday: req.body.Birthday
-            })
-            .then((user) => {
-                res.status(201).json(user);
-            })
-        }
-    })
-    .catch((err) => {
-        console.log(err);
-        res.status(400).send('An Error occurred: ' + err);
-    })
+    await Users.findOne({ Username: req.body.Username })
+        .then((user) => {
+            if (user) {
+                res.status(200).send('User with ' + req.body.Username + ' already exist');
+            } else {
+                Users.create({
+                    Username: req.body.Username,
+                    Password: req.body.Password,
+                    Email: req.body.Email,
+                    Birthday: req.body.Birthday
+                })
+                    .then((user) => {
+                        res.status(201).json(user);
+                    })
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send('An Error occurred: ' + err);
+        })
 });
 
-app.put('/users/update/:Username', passport.authenticate('jwt', {session:false}), async (req, res) => {
-    if(req.user.Username !== req.params.Username){
+app.put('/users/update/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    if (req.user.Username !== req.params.Username) {
         return res.status(400).send('Permission denied!')
     }
 
-    await Users.findOneAndUpdate({Username: req.params.Username}, {$set: {
-        Username: req.body.Username,
-        Password: req.body.Password,
-        Email: req.body.Email,
-        Birthday: req.body.Birthday
-    }}, 
-    //makes sure that the updated document is returned
-    {new:true})
-    .then((updatedUser)=>{
-        res.status(201).json(updatedUser);
-    })
-    .catch((err) => {
-        console.log(err);
-        res.status(400).send('Couldn\'t update user data: ' + err);
-    })
-});
-
-app.put('/users/:Username/movies/add/:MovieID', async (req, res) => {
-    await Users.findOneAndUpdate({Username: req.params.Username}, 
-        {$push: {FavoriteMovies: req.params.MovieID}},
-    {new:true})
-    .then((updatedUser) => {
-        res.status(201).json(updatedUser);
-    })
-    .catch ((err) => {
-        console.log(err);
-        res.status(400).send('Couldn\t add movie to favorites List-Err: ' + err);
-    })
-});
-
-app.delete('/users/:Username/movies/remove/:MovieID', async (req, res) => {
-    await Users.findOneAndUpdate({Username: req.params.Username},
-        { $pull: {FavoriteMovies: req.params.MovieID}},
-        {new:true})
-    .then((updatedUser) => {
-        res.status(200).json(updatedUser);
-    })
-    .catch((err) => {
-        console.log(err);
-        res.status(400).send('Movie couldn\'t be deleted from favorite Movies-Err: '+ err);
-    })
-});
-
-app.delete('/users/deregister/:Username', async(req, res) => {
-    await Users.findOneAndDelete({Username: req.params.Username})
-    .then((user) => {
-        if(!user){
-            res.status(200).send('No user with Username: ' + req.params.Username + ' found');
-        }else{
-            res.status(201).send('User with Username: ' + req.params.Username + ' was deleted');
+    await Users.findOneAndUpdate({ Username: req.params.Username }, {
+        $set: {
+            Username: req.body.Username,
+            Password: req.body.Password,
+            Email: req.body.Email,
+            Birthday: req.body.Birthday
         }
-    })
-    .catch((err) => {
-        console.log(err);
-        res.status(400).send('User couldn\'t be deleted-Err: ' + err);
-    })
+    },
+        //makes sure that the updated document is returned
+        { new: true })
+        .then((updatedUser) => {
+            res.status(201).json(updatedUser);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send('Couldn\'t update user data: ' + err);
+        })
+});
+
+app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', {session:false}),async (req, res) => {
+    if (req.user.Username !== req.params.Username) {
+        return res.status(400).send('Permission denied!')
+    }
+    await Users.findOneAndUpdate({ Username: req.params.Username },
+        { $push: { FavoriteMovies: req.params.MovieID } },
+        { new: true })
+        .then((updatedUser) => {
+            res.status(201).json(updatedUser);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send('Couldn\t add movie to favorites List-Err: ' + err);
+        })
+});
+
+app.delete('/users/:Username/movies/remove/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    if (req.user.Username !== req.params.Username) {
+        return res.status(400).send('Permission denied!')
+    }
+    await Users.findOneAndUpdate({ Username: req.params.Username },
+        { $pull: { FavoriteMovies: req.params.MovieID } },
+        { new: true })
+        .then((updatedUser) => {
+            res.status(200).json(updatedUser);
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send('Movie couldn\'t be deleted from favorite Movies-Err: ' + err);
+        })
+});
+
+app.delete('/users/deregister/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    if (req.user.Username !== req.params.Username) {
+        return res.status(400).send('Permission denied!')
+    }
+    await Users.findOneAndDelete({ Username: req.params.Username })
+        .then((user) => {
+            if (!user) {
+                res.status(200).send('No user with Username: ' + req.params.Username + ' found');
+            } else {
+                res.status(201).send('User with Username: ' + req.params.Username + ' was deleted');
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+            res.status(400).send('User couldn\'t be deleted-Err: ' + err);
+        })
 });
 
 //uses the common morgan format 
