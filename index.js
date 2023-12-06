@@ -7,14 +7,24 @@ const express = require('express'),
     Movies = Models.Movie,
     Users = Models.User;
 
+//allows Mongoose to connect to the DB
 mongoose.connect('mongodb://localhost:27017/movies_apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
+//so I can use req.body
 app.use(bodyParser.json());
-//directs to the documentation.html
-app.use(express.static('public'));
+
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get('/movies', async (req, res) => {
+let auth = require('./auth')(app);
+
+const passport = require('passport');
+require('./passport');
+
+//directs to the documentation.html
+app.use(express.static('public'));
+
+app.get('/movies', passport.authenticate('jwt', {session: false}), async (req, res) => {
     await Movies.find()
         .then((movies) => {
             res.status(201).json(movies);
@@ -84,13 +94,18 @@ app.post('/users/register', async (req, res) => {
     })
 });
 
-app.put('/users/update/:Username', async (req, res) => {
+app.put('/users/update/:Username', passport.authenticate('jwt', {session:false}), async (req, res) => {
+    if(req.user.Username !== req.params.Username){
+        return res.status(400).send('Permission denied!')
+    }
+
     await Users.findOneAndUpdate({Username: req.params.Username}, {$set: {
         Username: req.body.Username,
         Password: req.body.Password,
         Email: req.body.Email,
         Birthday: req.body.Birthday
     }}, 
+    //makes sure that the updated document is returned
     {new:true})
     .then((updatedUser)=>{
         res.status(201).json(updatedUser);
