@@ -17,6 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const cors = require('cors');
+//define allowed origins 
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 app.use(cors({
     origin:(origin, callback) => {
@@ -43,7 +44,7 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
             res.status(201).json(movies);
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
             res.status(400).send('An Error occurred: ' + err);
         })
 });
@@ -57,7 +58,7 @@ app.get('/movies/title/:Title', passport.authenticate('jwt', { session: false })
         }
         res.status(201).json(foundMovie);
     } catch (err) {
-        console.log(err);
+        console.error(err);
         res.send(400).send('An Error occurred: ' + err);
     }
 });
@@ -68,7 +69,7 @@ app.get('/movies/director/:Director', passport.authenticate('jwt', { session: fa
             res.status(201).json(movies.Director);
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
             res.status(400).send('An Error occurred:  ' + err);
         })
 });
@@ -79,12 +80,13 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
             res.status(201).json(movies.Genre);
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
             res.status(400).send('Can\'t find the genre-Err: ' + err);
         })
 });
 
 app.post('/users/register', async (req, res) => {
+    let hashedPassword = Users.hashedPassword(req.body.Password);
     await Users.findOne({ Username: req.body.Username })
         .then((user) => {
             if (user) {
@@ -92,17 +94,21 @@ app.post('/users/register', async (req, res) => {
             } else {
                 Users.create({
                     Username: req.body.Username,
-                    Password: req.body.Password,
+                    Password: hashedPassword,
                     Email: req.body.Email,
                     Birthday: req.body.Birthday
                 })
                     .then((user) => {
                         res.status(201).json(user);
                     })
+                    .catch((err) => {
+                        console.error(err);
+                        res.status(400).send('An Error occurred: ' + err);
+                    })
             }
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
             res.status(400).send('An Error occurred: ' + err);
         })
 });
@@ -126,7 +132,7 @@ app.put('/users/update/:Username', passport.authenticate('jwt', { session: false
             res.status(201).json(updatedUser);
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
             res.status(400).send('Couldn\'t update user data: ' + err);
         })
 });
@@ -142,7 +148,7 @@ app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', {se
             res.status(201).json(updatedUser);
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
             res.status(400).send('Couldn\t add movie to favorites List-Err: ' + err);
         })
 });
@@ -158,7 +164,7 @@ app.delete('/users/:Username/movies/remove/:MovieID', passport.authenticate('jwt
             res.status(200).json(updatedUser);
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
             res.status(400).send('Movie couldn\'t be deleted from favorite Movies-Err: ' + err);
         })
 });
@@ -176,7 +182,7 @@ app.delete('/users/deregister/:Username', passport.authenticate('jwt', { session
             }
         })
         .catch((err) => {
-            console.log(err);
+            console.error(err);
             res.status(400).send('User couldn\'t be deleted-Err: ' + err);
         })
 });
