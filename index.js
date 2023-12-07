@@ -7,6 +7,8 @@ const express = require('express'),
     Movies = Models.Movie,
     Users = Models.User;
 
+const { check, validationResult } = require('express-validator');
+
 //allows Mongoose to connect to the DB
 mongoose.connect('mongodb://localhost:27017/movies_apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
 
@@ -85,7 +87,10 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
         })
 });
 
-app.post('/users/register', async (req, res) => {
+app.post('/users/register', [check('Username', 'Username is required').isLength({min:5}),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'Please type a password').not().isEmpty(),
+    check('Email', 'Please type a valid email').isEmail()], async (req, res) => {
     let hashedPassword = Users.hashedPassword(req.body.Password);
     await Users.findOne({ Username: req.body.Username })
         .then((user) => {
