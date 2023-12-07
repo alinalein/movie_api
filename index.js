@@ -22,9 +22,9 @@ const cors = require('cors');
 //define allowed origins 
 let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
 app.use(cors({
-    origin:(origin, callback) => {
+    origin: (origin, callback) => {
         if (!origin) return callback(null, true);
-        if(allowedOrigins.indexOf(origin) === -1){
+        if (allowedOrigins.indexOf(origin) === -1) {
             let message = 'The CORS policy for this application doesn\'t allow access from origin' * origin;
             return callback(new Error(message), false);
         }
@@ -87,10 +87,17 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
         })
 });
 
-app.post('/users/register', [check('Username', 'Username is required').isLength({min:5}),
-    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-    check('Password', 'Please type a password').not().isEmpty(),
-    check('Email', 'Please type a valid email').isEmail()], async (req, res) => {
+app.post('/users/register', [check('Username', 'Username is required').isLength({ min: 5 }),
+check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+check('Password', 'Please type a password').not().isEmpty(),
+check('Email', 'Please type a valid email').isEmail()], async (req, res) => {
+
+    let errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
     let hashedPassword = Users.hashedPassword(req.body.Password);
     await Users.findOne({ Username: req.body.Username })
         .then((user) => {
@@ -118,31 +125,40 @@ app.post('/users/register', [check('Username', 'Username is required').isLength(
         })
 });
 
-app.put('/users/update/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
-    if (req.user.Username !== req.params.Username) {
-        return res.status(400).send('Permission denied!')
-    }
+app.put('/users/update/:Username', [check('Username', 'Username is required').isLength({ min: 5 }),
+check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()],
+    passport.authenticate('jwt', { session: false }), async (req, res) => {
 
-    await Users.findOneAndUpdate({ Username: req.params.Username }, {
-        $set: {
-            Username: req.body.Username,
-            Password: req.body.Password,
-            Email: req.body.Email,
-            Birthday: req.body.Birthday
+        let errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            return res.status(422).json({ errors: errors.array() });
         }
-    },
-        //makes sure that the updated document is returned
-        { new: true })
-        .then((updatedUser) => {
-            res.status(201).json(updatedUser);
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(400).send('Couldn\'t update user data: ' + err);
-        })
-});
 
-app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', {session:false}),async (req, res) => {
+
+        if (req.user.Username !== req.params.Username) {
+            return res.status(400).send('Permission denied!')
+        }
+
+        await Users.findOneAndUpdate({ Username: req.params.Username }, {
+            $set: {
+                Username: req.body.Username,
+                Password: req.body.Password,
+                Email: req.body.Email,
+                Birthday: req.body.Birthday
+            }
+        },
+            //makes sure that the updated document is returned
+            { new: true })
+            .then((updatedUser) => {
+                res.status(201).json(updatedUser);
+            })
+            .catch((err) => {
+                console.error(err);
+                res.status(400).send('Couldn\'t update user data: ' + err);
+            })
+    });
+
+app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     if (req.user.Username !== req.params.Username) {
         return res.status(400).send('Permission denied!')
     }
