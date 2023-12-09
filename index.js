@@ -10,7 +10,7 @@ const express = require('express'),
 const { check, validationResult } = require('express-validator');
 
 //allows Mongoose to connect to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
-mongoose.connect( process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //so I can use req.body
 app.use(bodyParser.json());
@@ -39,6 +39,11 @@ require('./passport');
 
 //directs to the documentation.html
 app.use(express.static('public'));
+
+app.get('/', (req, res) => {
+    res.send('I hope you work :)');
+  });
+  
 
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
