@@ -8,7 +8,7 @@ personal information, delte their profile and create a list of their favorite mo
 - Run the server: npm start
 
 ## API Endpoints 🔍
--` /movies` : Return a list of ALL movies
+- `/movies` : Return a list of ALL movies
 - `/movies/title/[Title]` : Return data about a single movie by title
 - `/movies/genre/[Genre]` : Return data about a genre by name
 - `/movies/director/[Director]` : Return data about a director by name
