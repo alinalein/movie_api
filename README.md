@@ -30,6 +30,7 @@ personal information, delte their profile and create a list of their favorite mo
  
  ## User Stories 💃 🕺
  As a user, I want to sign in/sign up to the application so I can save data about my favorite movies.
+ 
  As a user, I want to access details about movies, directors, and genres so that I will be able to see information about movies I am interessted in. 
 
 ## Link to the live API 🎞️
