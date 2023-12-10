@@ -133,7 +133,10 @@ check('Email', 'Please type a valid email').isEmail()], async (req, res) => {
 app.put('/users/update/:Username', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
 check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()],
     passport.authenticate('jwt', { session: false }), async (req, res) => {
-
+        if (req.user.Username !== req.params.Username) {
+            return res.status(400).send('Permission denied!')
+        }
+        
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
@@ -162,7 +165,7 @@ app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', { s
     if (req.user.Username !== req.params.Username) {
         return res.status(400).send('Permission denied!')
     }
-    console.log(req.user.Username);
+
     await Users.findOneAndUpdate({ Username: req.params.Username },
         { $push: { FavoriteMovies: req.params.MovieID } },
         { new: true })
