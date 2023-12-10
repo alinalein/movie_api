@@ -92,7 +92,7 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
         })
 });
 
-app.post('/users/register', [check('Username', 'Username is required').isLength({ min: 5 }),
+app.post('/users/register', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
 check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
 check('Password', 'Please type a password').not().isEmpty(),
 check('Email', 'Please type a valid email').isEmail()], async (req, res) => {
@@ -130,7 +130,7 @@ check('Email', 'Please type a valid email').isEmail()], async (req, res) => {
         })
 });
 
-app.put('/users/update/:Username', [check('Username', 'Username is required').isLength({ min: 5 }),
+app.put('/users/update/:Username', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
 check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()],
     passport.authenticate('jwt', { session: false }), async (req, res) => {
 
