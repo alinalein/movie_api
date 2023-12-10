@@ -32,7 +32,7 @@
                 <td>Return a list of ALL movies to the user</td>
                 <td>/movies</td>
                 <td>GET</td>
-                <td>http://localhost:8080/movies</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/movies</td>
                 <td>None</td>
                 <td>A JSON object holding data about all movies with this format:
                     <pre>
@@ -59,7 +59,7 @@
                     movie by title to the user</td>
                 <td>/movies/title/[Title]</td>
                 <td>GET</td>
-                <td>http://localhost:8080/movies/title/:Title</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/movies/title/:Title</td>
                 <td>None</td>
                 <td>A JSON object holding data about a specific movie:
                     <pre>
@@ -84,7 +84,7 @@
                 <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
                 <td>/movies/genre/[Genre]</td>
                 <td>GET</td>
-                <td>http://localhost:8080/movies/genre/:Genre</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/movies/genre/:Genre</td>
                 <td>None</td>
                 <td>A JSON object holding data about a specific gerne:
                     <pre>
@@ -98,11 +98,10 @@
                 <td>Return data about a director (bio, birth year, death year) by name</td>
                 <td>/movies/director/[Director]</td>
                 <td>GET</td>
-                <td>http://localhost:8080/movies/director/:Director</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/movies/director/:Director</td>
                 <td>None</td>
                 <td>A JSON object holding data about a specific director
-                    <pre>
-                            {
+                        <pre>{
                                 Name: String,
                                 Bio: String,
                                 Birth: String
@@ -111,10 +110,10 @@
             </tr>
             <tr>
                 <td>Allow new users to register</td>
-                <td>users/register</td>
+                <td>/users/register</td>
                 <td>POST</td>
-                <td>http://localhost:8080/users/register</td>
-                <td>A JSON object about the user will be added, including the following data:
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/register</td>
+                <td>A JSON object about the user should be send, including the following data:
                     <pre>
                         {
                             Username: {type: String, required: true},
@@ -126,17 +125,14 @@
                 <td>A JSON object holding data about the user that registered</td>
             </tr>
             <tr>
-                <td>Allow users to update their user info per Username</td>
-                <td>users/update/[Username]</td>
+                <td>Allow users to update their Username</td>
+                <td>/users/update/[Username]</td>
                 <td>PUT</td>
-                <td>http://localhost:8080/users/update/:Username</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/update/:Username</td>
                 <td>A JSON object about the data of the user that is supposed to be updated:
                     <pre>
                         {
-                            Username: {type: String, required: true},
-                            Password: {type: String, required: true},
-                            Email: {type: String, required: true},
-                            Birthday: Date
+                            Username: {type: String, required: true}
                         }</pre>
                 </td>
                 <td>JSON object with the updated info about the user</td>
@@ -144,18 +140,18 @@
             <tr>
                 <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been
                     added—more on this later)</td>
-                <td>users/[Username]/movies/add/[MovieID]</td>
+                <td>/users/[Username]/movies/add/[MovieID]</td>
                 <td>PUT</td>
-                <td>http://localhost:8080/users/:Username/movies/add/:MovieID</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/:Username/movies/add/:MovieID</td>
                 <td>None</td>
-                <td>JSON object with the updated info about the user including the favorite Movie</td>
+                <td>JSON object with the updated info about the user including the favorite Movies</td>
             </tr>
             <tr>
                 <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has
                     been removed—more on this later)</td>
-                <td>users/[Username]/movies/remove/[MovieId]</td>
+                <td>/users/[Username]/movies/remove/[MovieId]</td>
                 <td>DELETE</td>
-                <td>http://localhost:8080//users/:Username/movies/remove/:MovieID</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/:Username/movies/remove/:MovieID</td>
                 <td>None</td>
                 <td>JSON object with the updated info about the user including the favorite Movies</td>
             </tr>
@@ -164,9 +160,17 @@
                     this later)</td>
                 <td>/users/deregister/[Username]</td>
                 <td>DELETE</td>
-                <td>http://localhost:8080/users/deregister/:Username</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/:Username</td>
                 <td>None</td>
                 <td>A text message that informs the user if the profile was successfully deleted</td>
+            </tr>
+            <tr>
+                <td>Allow existing users to log in to own profile with Username and Password as Params</td>
+                <td>/login</td>
+                <td>POST</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/login</td>
+                <td>None</td>
+                <td>JSON object showing the users details and his token</td>
             </tr>
         </tbody>
     </table>

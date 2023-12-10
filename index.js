@@ -20,7 +20,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const cors = require('cors');
 //define allowed origins 
-let allowedOrigins = ['http://localhost:8080', 'http://testsite.com'];
+let allowedOrigins = ['http://localhost:8080', 'https://movie-api-lina-834bc70d6952.herokuapp.com'];
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
@@ -41,9 +41,9 @@ require('./passport');
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-    res.send('I hope you work :)');
-  });
-  
+    res.send('Welcome to the best movie search app ever!(Maybe 😁 s)');
+});
+
 
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
@@ -136,7 +136,7 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
         if (req.user.Username !== req.params.Username) {
             return res.status(400).send('Permission denied!')
         }
-        
+
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
@@ -212,7 +212,7 @@ app.delete('/users/deregister/:Username', passport.authenticate('jwt', { session
         })
 });
 
-//uses the common morgan format 
+//request should be logged used the common morgan format
 app.use(morgan('common'));
 
 app.use((err, req, res, next) => {
@@ -221,6 +221,6 @@ app.use((err, req, res, next) => {
 });
 
 const port = process.env.PORT || 8080;
-app.listen(port, '0.0.0.0',() => {
- console.log('Listening on Port ' + port);
+app.listen(port, '0.0.0.0', () => {
+    console.log('Listening on Port ' + port);
 });
