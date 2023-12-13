@@ -9,7 +9,7 @@ Hello to my Movie_API!
 - **JWT (JSON Web Token)** : Compact, secure token for representing claims between parties
 - **Postman** : API development platform, streamlining testing and debugging
 - **Heroku** : Cloud platform for deploying and managing applications
-- 
+
 ## Getting started 😎
 
 ### Clone the repository:
@@ -43,8 +43,6 @@ npm start
 - `/users/[Username]/movies/remove/[MovieId]` : Allow users to remove a movie from their list of favorites
 - `/users/deregister/[Username]` : Allow existing users to deregister
 - `/users/login` : Allows the user to log in to their profile
-
-
  
  ## User Stories 💃 🕺
  As a user, I want to sign in/sign up to the application so I can save data about my favorite movies.
