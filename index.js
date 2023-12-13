@@ -10,6 +10,7 @@ const express = require('express'),
 const { check, validationResult } = require('express-validator');
 
 //allows Mongoose to connect to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
+//connects Mongoose to the DB in Mongo Atlas 
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //so I can use req.body
@@ -32,6 +33,7 @@ app.use(cors({
     }
 }));
 
+//(app)-> applies express also to auth.js
 let auth = require('./auth')(app);
 
 const passport = require('passport');
