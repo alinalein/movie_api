@@ -9,18 +9,21 @@ const express = require('express'),
 
 const { check, validationResult } = require('express-validator');
 
-//allows Mongoose to connect to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
-//connects Mongoose to the DB in Mongo Atlas 
+// allows Mongoose to connect to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB', { useNewUrlParser: true, useUnifiedTopology: true });
+// connects Mongoose to the DB in Mongo Atlas 
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
 //so I can use req.body
 app.use(bodyParser.json());
 
+// adds middleware to the Express application to parse incoming requests with JSON payloads
 app.use(express.json());
+// adds middleware to parse incoming requests with URL-encoded payloads
 app.use(express.urlencoded({ extended: true }));
 
+// middleware from express -> Cross-Origin Resource Sharing 
 const cors = require('cors');
-//define allowed origins 
+// define allowed origins 
 let allowedOrigins = ['http://localhost:8080', 'https://movie-api-lina-834bc70d6952.herokuapp.com'];
 app.use(cors({
     origin: (origin, callback) => {
@@ -33,7 +36,7 @@ app.use(cors({
     }
 }));
 
-//(app)-> applies express also to auth.js
+// (app)-> applies express also to auth.js
 let auth = require('./auth')(app);
 
 const passport = require('passport');
@@ -46,7 +49,7 @@ app.get('/', (req, res) => {
     res.send('Welcome to the best movie search app ever!(Maybe😁)');
 });
 
-
+// applies the jwt authentication to every route, except register 
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
         .then((movies) => {
@@ -58,7 +61,6 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
         })
 });
 
-// additional message in case the movie is not in the DB 
 app.get('/movies/title/:Title', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const foundMovie = await Movies.findOne({ Title: req.params.Title })
@@ -94,6 +96,7 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
         })
 });
 
+// use express validation methods
 app.post('/users/register', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
 check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
 check('Password', 'Please type a password').not().isEmpty(),
@@ -237,6 +240,7 @@ app.use((err, req, res, next) => {
     res.status(500).send('Internal Server Error');
 });
 
+// checks port number of hosting service-> if there is none, server will use port 8080 
 const port = process.env.PORT || 8080;
 app.listen(port, '0.0.0.0', () => {
     console.log('Listening on Port ' + port);

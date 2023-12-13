@@ -1,5 +1,5 @@
 const mongoose = require('mongoose'),
-//bcrypt is a password hashing function 
+// bcrypt is a password hashing function 
     bcrypt = require('bcrypt');
 
 let movieSchema = mongoose.Schema({

@@ -1,13 +1,13 @@
 const jwtSecret = 'your_jwt_secret';
 
-//jsonwebtoken library used for creating and verifying JSON Web Tokens (JWTs) in Node.js 
+// jsonwebtoken library used for creating and verifying JSON Web Tokens (JWTs) in Node.js 
 const jwt = require('jsonwebtoken'),
     passport = require('passport');
 
 require('./passport');
 
 let generateJWTToken = (user) => {
-    //jwt.sign(payload, secretKey, options)
+    // jwt.sign(payload, secretKey, options)
     return jwt.sign(user, jwtSecret, {
         subject: user.Username,
         expiresIn: '7d',
@@ -15,7 +15,7 @@ let generateJWTToken = (user) => {
     });
 }
 
-//login path imported to index.js
+// login path imported to index.js
 module.exports = (router) => {
     router.post('/users/login', (req, res) => {
         // uses local strategy from passport.js to authenticate the user
@@ -37,7 +37,10 @@ module.exports = (router) => {
                     Birthday: user.Birthday,
                     FavoriteMovies: user.FavoriteMovies
                 };
-                return res.status(201).json({ user: responseUser, token });
+                // after login was successful return this data
+                return res.status(201).json({ 
+                    user: responseUser, 
+                    token: token });
             });
         })(req, res);
     })
