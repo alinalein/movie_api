@@ -4,7 +4,7 @@ Hello to my Movie_API!
 ## Technology Stack 🛠️
 - **Node.js** : Runtime for server-side JavaScript, designed for scalability
 - **Express.js** : Web framework for Node.js, streamlining web app development
-- **MongoDB** : NoSQL database, flexible and scalable with JSON-like documents.
+- **MongoDB** : NoSQL database, flexible and scalable with JSON-like documents
 - **Mongoose** : MongoDB and Node.js ODM, simplifying data modeling
 - **JWT (JSON Web Token)** : Compact, secure token for representing claims between parties
 - **Postman** : API development platform, streamlining testing and debugging
