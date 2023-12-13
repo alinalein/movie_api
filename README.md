@@ -1,5 +1,5 @@
 ## Movie_API 🎬🍿
-Hello to my Movie_API!It is the server-side part of the web application. The user is given access to details about various films, directors and genres. Users will be able to sign up, update their personal information, delte their profile and create a list of their favorite movies.
+Hello to my Movie_API! It is the server-side part of the web application. The user is given access to details about various films, directors and genres. Users will be able to sign up, update their personal information, delte their profile and create a list of their favorite movies.
 
 ## Technology Stack 🛠️
 - **Node.js** : Runtime for server-side JavaScript, designed for scalability
@@ -43,7 +43,14 @@ npm start
 - `/users/[Username]/movies/remove/[MovieId]` : Allow users to remove a movie from their list of favorites
 - `/users/deregister/[Username]` : Allow existing users to deregister
 - `/users/login` : Allows the user to log in to their profile
- 
+
+## Deploy your application
+1. Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
+2. Log in to your Heroku Account. Run in your terminal `heroku login`
+3. From the application directory run `heroku create`, to create an empy project in Heroku
+4. Commit all your changes to your main repository, run `git commit -m" reason for commit"`
+5. Now push your application to the created Heroku folder, run `git push heroku main`
+   
  ## User Stories 💃 🕺
  As a user, I want to sign in/sign up to the application so I can save data about my favorite movies.
  
