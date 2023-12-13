@@ -41,7 +41,7 @@ require('./passport');
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
-    res.send('Welcome to the best movie search app ever!(Maybe 😁 s)');
+    res.send('Welcome to the best movie search app ever!(Maybe😁)');
 });
 
 
@@ -95,7 +95,8 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
 app.post('/users/register', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
 check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
 check('Password', 'Please type a password').not().isEmpty(),
-check('Email', 'Please type a valid email').isEmail()], async (req, res) => {
+check('Email', 'Please type a valid email').isEmail(),
+], async (req, res) => {
 
     let errors = validationResult(req);
 
@@ -117,8 +118,9 @@ check('Email', 'Please type a valid email').isEmail()], async (req, res) => {
                 })
                     .then((user) => {
                         res.status(201).send('Successfully registered!\n' + JSON.stringify({
-                            username: user.Username,
-                            email: user.Email
+                            Username: user.Username,
+                            Email: user.Email,
+                            Birthday: user.Birthday
                         }, null, 2));
                     })
                     .catch((err) => {
@@ -156,7 +158,11 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
             //makes sure that the updated document is returned
             { new: true })
             .then((updatedUser) => {
-                res.status(201).json(updatedUser);
+                res.status(201).send('Successfully updated the username\n' + JSON.stringify({
+                    Username: updatedUser.Username,
+                    Email: updatedUser.Email,
+                    Birthday: updatedUser.Birthday
+                }, null, 2));
             })
             .catch((err) => {
                 console.error(err);
@@ -173,7 +179,10 @@ app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', { s
         { $push: { FavoriteMovies: req.params.MovieID } },
         { new: true })
         .then((updatedUser) => {
-            res.status(201).json(updatedUser);
+            res.status(201).send('Successfully added the movie to the favorite List!\n' + JSON.stringify({
+                Username: updatedUser.Username,
+                FavoriteMovies: updatedUser.FavoriteMovies,
+            }, null, 2));
         })
         .catch((err) => {
             console.error(err);
@@ -189,7 +198,10 @@ app.delete('/users/:Username/movies/remove/:MovieID', passport.authenticate('jwt
         { $pull: { FavoriteMovies: req.params.MovieID } },
         { new: true })
         .then((updatedUser) => {
-            res.status(200).json(updatedUser);
+            res.status(200).send('Successfully deleted the movie to the favorite List!\n' + JSON.stringify({
+                Username: updatedUser.Username,
+                FavoriteMovies: updatedUser.FavoriteMovies,
+            }, null, 2));
         })
         .catch((err) => {
             console.error(err);

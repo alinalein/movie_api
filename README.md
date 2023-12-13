@@ -17,7 +17,7 @@ personal information, delte their profile and create a list of their favorite mo
 - `/users/[Username]/movies/add/[MovieID]` : Allow users to add a movie from their list of favorites
 - `/users/[Username]/movies/remove/[MovieId]` : Allow users to remove a movie from their list of favorites
 - `/users/deregister/[Username]` : Allow existing users to deregister
-- `/login` : Allows the user to log in to their profile
+- `/users/login` : Allows the user to log in to their profile
 
 ## Technology Stack 🛠️
 - **Node.js** : Runtime for server-side JavaScript, designed for scalability
