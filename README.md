@@ -1,11 +1,34 @@
 ## Movie_API 🎬🍿
-Hello to my Movie_API! It is the server-side part of the web application. The user is given access to details about various films, directors and genres. Users will be able to sign up, update their
-personal information, delte their profile and create a list of their favorite movies.
+Hello to my Movie_API!
 
-## Start-up command line instructions 😎
-- Dependencies: npm install --save bcrypt body-parser cors express express-validator jsonwebtoken mongoose morgan passport passport-jwt passport-local uuid
-- Dev Dependencies: npm install nodemon eslint --save-dev
-- Run the server: npm start
+## Technology Stack 🛠️
+- **Node.js** : Runtime for server-side JavaScript, designed for scalability
+- **Express.js** : Web framework for Node.js, streamlining web app development
+- **MongoDB** : NoSQL database, flexible and scalable with JSON-like documents.
+- **Mongoose** : MongoDB and Node.js ODM, simplifying data modeling
+- **JWT (JSON Web Token)** : Compact, secure token for representing claims between parties
+- **Postman** : API development platform, streamlining testing and debugging
+- **Heroku** : Cloud platform for deploying and managing applications
+- 
+## Getting started 😎
+
+### Clone the repository:
+```
+git clone https://github.com/alinalein/movie_api.git
+```
+
+### Change the directory:
+```
+cd movie_api
+```
+### Install the dependencies
+```
+npm install
+```
+### Run the server
+```
+npm start
+```
 
 ## API Endpoints 🔍
 - `/movies` : Return a list of ALL movies
@@ -19,14 +42,7 @@ personal information, delte their profile and create a list of their favorite mo
 - `/users/deregister/[Username]` : Allow existing users to deregister
 - `/users/login` : Allows the user to log in to their profile
 
-## Technology Stack 🛠️
-- **Node.js** : Runtime for server-side JavaScript, designed for scalability
-- **Express.js** : Web framework for Node.js, streamlining web app development
-- **MongoDB** : NoSQL database, flexible and scalable with JSON-like documents.
-- **Mongoose** : MongoDB and Node.js ODM, simplifying data modeling
-- **JWT (JSON Web Token)** : Compact, secure token for representing claims between parties
-- **Postman** : API development platform, streamlining testing and debugging
-- **Heroku** : Cloud platform for deploying and managing applications
+
  
  ## User Stories 💃 🕺
  As a user, I want to sign in/sign up to the application so I can save data about my favorite movies.
