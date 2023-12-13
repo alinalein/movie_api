@@ -32,7 +32,7 @@ npm start
 
 ## API Endpoints 🔍
 
- [Documentation of Endpoints](https://movie-api-lina-834bc70d6952.herokuapp.com/documentation.html)
+ [Documentation of the Endpoints](https://movie-api-lina-834bc70d6952.herokuapp.com/documentation.html)
 - `/movies` : Return a list of ALL movies
 - `/movies/title/[Title]` : Return data about a single movie by title
 - `/movies/genre/[Genre]` : Return data about a genre by name
