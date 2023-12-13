@@ -116,11 +116,10 @@ check('Email', 'Please type a valid email').isEmail()], async (req, res) => {
                     Birthday: req.body.Birthday
                 })
                     .then((user) => {
-                        res.status(201).json({
-                            message:'Successfully registered',
-                           username:  user.Username,
-                           email: user.Email
-                        });
+                        res.status(201).send('Successfully registered!\n' + JSON.stringify({
+                            username: user.Username,
+                            email: user.Email
+                        }, null, 2));
                     })
                     .catch((err) => {
                         console.error(err);
