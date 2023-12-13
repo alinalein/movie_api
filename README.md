@@ -44,6 +44,9 @@ npm start
 - `/users/deregister/[Username]` : Allow existing users to deregister
 - `/users/login` : Allows the user to log in to their profile
 
+## Test your API ⚙️
+Postman was used for testing. To test your API, please open the postman-tests folder in the project and import the file into your Postman client. 
+
 ## Deploy your application
 1. Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
 2. Log in to your Heroku Account. Run in your terminal `heroku login`
