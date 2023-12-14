@@ -39,7 +39,7 @@ module.exports = (router) => {
                 };
                 // after login was successful return this data
                 return res.status(201).json({ 
-                    user: responseUser, 
+                    user: responseUser,  
                     token: token });
             });
         })(req, res);
