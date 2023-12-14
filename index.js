@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const express = require('express'),
     bodyParser = require('body-parser'),
     morgan = require('morgan'),
@@ -37,7 +38,7 @@ app.use(cors({
 }));
 
 // (app)-> applies express also to auth.js
-let auth = require('./auth')(app);
+require('./auth')(app);
 
 const passport = require('passport');
 require('./passport');
@@ -235,7 +236,7 @@ app.delete('/users/deregister/:Username', passport.authenticate('jwt', { session
 //request should be logged used the common morgan format
 app.use(morgan('common'));
 
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
     console.error(err.stack);
     res.status(500).send('Internal Server Error');
 });

@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "/users",
+			"name": "users",
 			"item": [
 				{
 					"name": "Login",
@@ -147,7 +147,7 @@
 			]
 		},
 		{
-			"name": "/movies",
+			"name": "movies",
 			"item": [
 				{
 					"name": "Show all Movies",
