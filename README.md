@@ -43,7 +43,7 @@ npm start
 - `/users/[Username]/movies/remove/[MovieId]` : Allow users to remove a movie from their list of favorites
 - `/users/deregister/[Username]` : Allow existing users to deregister
 - `/users/login` : Allows the user to log in to their profile
-
+ 
 ## Test your API ⚙️
 Postman was used for testing. To test your API, please open the postman-tests folder in the project and import the file into your Postman client. 
 
