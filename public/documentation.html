@@ -10,12 +10,12 @@
 </head>
 
 <body>
-   
+
     <h1 class="text-center">Documention for the Movie_API</h1><br>
     <p class="text-center">The API should retrieve the URL from the client , the request of the client and return a
         corresponding response
         by the server. The server will fetch the data from a database.</p><br><br>
-      
+
     <table class="table table-bordered table-striped">
         <thead>
             <tr>
@@ -88,7 +88,7 @@
                     </div>
                 </td>
             </tr>
-          <tr>
+            <tr>
                 <td>Return data about a genre (description) by name/title (e.g., “Thriller”)</td>
                 <td>/movies/genre/[Genre]</td>
                 <td>GET</td>
@@ -142,15 +142,16 @@
                     </pre>
                     </div>
                 </td>
-                <td><div class="col-sm-4 col-md-6 col-lg-8">A JSON object holding data about the user that registered:
-                    <pre>
+                <td>
+                    <div class="col-sm-4 col-md-6 col-lg-8">A JSON object holding data about the user that registered:
+                        <pre>
                         {
                             Username: {type: String, required: true},
                             Email: {type: String, required: true},
                             Birthday: Date
                         }
                     </pre>
-                </div>
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -169,59 +170,69 @@
                     </pre>
                     </div>
                 </td>
-                <td><div class="col-sm-4 col-md-6 col-lg-8">
-                    JSON object with the updated info about the user:
-                    <pre>
+                <td>
+                    <div class="col-sm-4 col-md-6 col-lg-8">
+                        JSON object with the updated info about the user:
+                        <pre>
                         {
                             Username: {type: String, required: true},
                             Email: {type: String, required: true},
                             Birthday: Date
                         }
                     </pre>
-                </div>
+                    </div>
                 </td>
             </tr>
             <tr>
                 <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been
-                 added—more on this later)</td>
+                    added—more on this later)</td>
                 <td>/users/[Username]/movies/add/[MovieID]</td>
                 <td>PUT</td>
                 <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/:Username/movies/add/:MovieID</td>
                 <td>None</td>
-                <td><div class="col-sm-4 col-md-6 col-lg-8">JSON object with the updated info about the users favorite Movies:
-                    <pre>
+                <td>
+                    <div class="col-sm-4 col-md-6 col-lg-8">JSON object with the updated info about the users favorite
+                        Movies:
+                        <pre>
                         {
                             Username: {type: String, required: true},
                             FavoriteMovies: [{type:mongoose.Schema.Types.ObjectId, ref: 'Movie'}]
                         }
                     </pre>
-                </div></td>
+                    </div>
+                </td>
             </tr>
             <tr>
-                <td >Allow users to remove a movie from their list of favorites (showing only a text that a movie has
-                     been removed—more on this later)</td>
-                <td >/users/[Username]/movies/remove/[MovieId]</td>
-                <td >DELETE</td>
-                <td >https://movie-api-lina-834bc70d6952.herokuapp.com/users/:Username/movies/remove/:MovieID</td>
-                <td >None</td>
-                <td >  <div class="col-sm-4 col-md-6 col-lg-8">JSON object with the updated info about the users favorite Movies:
-                    <pre>
+                <td>Allow users to remove a movie from their list of favorites (showing only a text that a movie has
+                    been removed—more on this later)</td>
+                <td>/users/[Username]/movies/remove/[MovieId]</td>
+                <td>DELETE</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/:Username/movies/remove/:MovieID</td>
+                <td>None</td>
+                <td>
+                    <div class="col-sm-4 col-md-6 col-lg-8">JSON object with the updated info about the users favorite
+                        Movies:
+                        <pre>
                         {
                             Username: {type: String, required: true},
                             FavoriteMovies: [{type:mongoose.Schema.Types.ObjectId, ref: 'Movie'}]
                         }
                     </pre>
 
-                </div></td>
+                    </div>
+                </td>
             </tr>
             <tr>
                 <td>Allow existing users to deregister (showing only a text that a user email has been removed—more on
-                 this later)</td>
+                    this later)</td>
                 <td>/users/deregister/[Username]</td>
                 <td>DELETE</td>
                 <td>https://movie-api-lina-834bc70d6952.herokuapp.com/:Username</td>
                 <td>None</td>
-                <td>  <div class="col-sm-4 col-md-6 col-lg-8">A text message that informs the user if the profile was successfully deleted</div></td>
+                <td>
+                    <div class="col-sm-4 col-md-6 col-lg-8">A text message that informs the user if the profile was
+                        successfully deleted</div>
+                </td>
             </tr>
             <tr>
                 <td>Allow existing users to log in to own profile with Username and Password as Params</td>
@@ -229,8 +240,9 @@
                 <td>POST</td>
                 <td>https://movie-api-lina-834bc70d6952.herokuapp.com//users/login</td>
                 <td>None</td>
-                <td>  <div class="col-sm-4 col-md-6 col-lg-8">JSON object showing the users details and his token:
-                    <pre>
+                <td>
+                    <div class="col-sm-4 col-md-6 col-lg-8">JSON object showing the users details and his token:
+                        <pre>
                     user: {
                         Username: {type: String, required: true},
                         Email: {type: String, required: true},
@@ -239,7 +251,8 @@
                     },
                     token: "...."
                 </pre>
-                </div></td>
+                    </div>
+                </td>
             </tr>
         </tbody>
     </table>
