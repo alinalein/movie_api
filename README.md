@@ -1,5 +1,5 @@
-## myFlix-API 🎬🍿
-Hello to my myFlix-API! It is the server-side part of the web application. The user is given access to details about various films, directors and genres. Users will be able to sign up, update their personal information, delte their profile and create a list of their favorite movies.
+## Movie_API 🎬🍿
+Hello to my Movie_API! It is the server-side part of the web application. The user is given access to details about various films, directors and genres. Users will be able to sign up, update their personal information, delte their profile and create a list of their favorite movies.
 
 ## Technology Stack 🛠️
 - **Node.js** : Runtime for server-side JavaScript, designed for scalability
