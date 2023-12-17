@@ -2,13 +2,13 @@
 Hello to my Movie_API! It is the server-side part of the web application. The user is given access to details about various films, directors and genres. Users will be able to sign up, update their personal information, delte their profile and create a list of their favorite movies.
 
 ## Technology Stack 🛠️
-- **Node.js** : Runtime for server-side JavaScript, designed for scalability
-- **Express.js** : Web framework for Node.js, streamlining web app development
-- **MongoDB** : NoSQL database, flexible and scalable with JSON-like documents
-- **Mongoose** : MongoDB and Node.js ODM, simplifying data modeling
-- **JWT (JSON Web Token)** : Compact, secure token for representing claims between parties
-- **Postman** : API development platform, streamlining testing and debugging
-- **Heroku** : Cloud platform for deploying and managing applications
+**Node.js** : Runtime for server-side JavaScript, designed for scalability
+**Express.js** : Web framework for Node.js, streamlining web app development
+**MongoDB** : NoSQL database, flexible and scalable with JSON-like documents
+**Mongoose** : MongoDB and Node.js ODM, simplifying data modeling
+**JWT (JSON Web Token)** : Compact, secure token for representing claims between parties
+**Postman** : API development platform, streamlining testing and debugging
+**Heroku** : Cloud platform for deploying and managing applications
 
 ## Getting started 😎
 
