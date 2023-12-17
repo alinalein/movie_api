@@ -14,7 +14,7 @@ const { check, validationResult } = require('express-validator');
 // connects Mongoose to the DB in Mongo Atlas 
 mongoose.connect(process.env.CONNECTION_URI, { useNewUrlParser: true, useUnifiedTopology: true });
 
-//so I can use req.body
+//so I can use req.body 
 app.use(bodyParser.json());
 
 // adds middleware to the Express application to parse incoming requests with JSON payloads
