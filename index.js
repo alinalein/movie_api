@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 // middleware from express -> Cross-Origin Resource Sharing 
 const cors = require('cors');
 // define allowed origins 
-let allowedOrigins = ['http://localhost:8080', 'https://movie-api-lina-834bc70d6952.herokuapp.com'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234/', 'https://movie-api-lina-834bc70d6952.herokuapp.com'];
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
