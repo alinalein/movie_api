@@ -25,18 +25,18 @@ app.use(express.urlencoded({ extended: true }));
 // middleware from express -> Cross-Origin Resource Sharing 
 const cors = require('cors');
 // define allowed origins 
-app.use(cors());
-// let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234/', 'https://movie-api-lina-834bc70d6952.herokuapp.com'];
-// app.use(cors({
-//     origin: (origin, callback) => {
-//         if (!origin) return callback(null, true);
-//         if (allowedOrigins.indexOf(origin) === -1) {
-//             let message = 'The CORS policy for this application doesn\'t allow access from origin' + origin;
-//             return callback(new Error(message), false);
-//         }
-//         return callback(null, true);
-//     }
-// }));
+// app.use(cors());
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://movie-api-lina-834bc70d6952.herokuapp.com'];
+app.use(cors({
+    origin: (origin, callback) => {
+        if (!origin) return callback(null, true);
+        if (allowedOrigins.indexOf(origin) === -1) {
+            let message = 'The CORS policy for this application doesn\'t allow access from origin' + origin;
+            return callback(new Error(message), false);
+        }
+        return callback(null, true);
+    }
+}));
 
 // (app)-> applies express also to auth.js
 require('./auth')(app);
