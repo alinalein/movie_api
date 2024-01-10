@@ -22,7 +22,7 @@ app.use(express.json());
 // adds middleware to parse incoming requests with URL-encoded payloads
 app.use(express.urlencoded({ extended: true }));
 
-// middleware from express -> Cross-Origin Resource Sharing 
+// middleware from express -> Cross-Origin Resource Sharing c
 const cors = require('cors');
 // define allowed origins 
 // app.use(cors());
