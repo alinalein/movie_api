@@ -13,7 +13,7 @@ const express = require('express'),
     cors = require('cors');
 const { check, validationResult } = require('express-validator');
 
-// allows Mongoose to connect to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB');
+//allows Mongoose to connect to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB');
 //connects Mongoose to the DB in Mongo Atlas 
 mongoose.connect(process.env.CONNECTION_URI);
 
