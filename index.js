@@ -1,13 +1,16 @@
 /* eslint-disable no-undef */
 const express = require('express'),
-    bodyParser = require('body-parser'),
-    morgan = require('morgan'),
     app = express(),
+    morgan = require('morgan'),
+    fs = require("fs"),
+    path = require("path"),
+    bodyParser = require('body-parser'),
     mongoose = require('mongoose'),
     Models = require('./models.js'),
     Movies = Models.Movie,
-    Users = Models.User;
-
+    Users = Models.User,
+    // middleware from express -> Cross-Origin Resource Sharing c
+    cors = require('cors');
 const { check, validationResult } = require('express-validator');
 
 // allows Mongoose to connect to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB');
@@ -16,14 +19,14 @@ mongoose.connect(process.env.CONNECTION_URI);
 
 //so I can use req.body 
 app.use(bodyParser.json());
+// app.use(express.json()); -> same job as bodyParser
 
-// adds middleware to the Express application to parse incoming requests with JSON payloads
-app.use(express.json());
+//directs to the documentation.html
+app.use(express.static('public'));
+
 // adds middleware to parse incoming requests with URL-encoded payloads
 app.use(express.urlencoded({ extended: true }));
 
-// middleware from express -> Cross-Origin Resource Sharing c
-const cors = require('cors');
 // define allowed origins 
 // app.use(cors());
 let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://movie-api-lina-834bc70d6952.herokuapp.com'];
@@ -44,8 +47,10 @@ require('./auth')(app);
 const passport = require('passport');
 require('./passport');
 
-//directs to the documentation.html
-app.use(express.static('public'));
+//create a write stream & path.join appends it to ‘log.txt’ file in root directory
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'log.txt'), { flags: 'a' });
+//request should be logged used the common morgan format & stream specifies to write/log the request details to -> accessLogStream
+app.use(morgan('combined', { stream: accessLogStream }));
 
 app.get('/', (req, res) => {
     res.send('Welcome to the best movie search app ever!(Maybe😁)');
@@ -99,7 +104,7 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
 });
 
 // use express validation methods
-app.post('/users/register', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
+app.post('/users/signup', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
 check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
 check('Password', 'Please type a password').not().isEmpty(),
 check('Email', 'Please type a valid email').isEmail(),
@@ -124,7 +129,7 @@ check('Email', 'Please type a valid email').isEmail(),
                     Birthday: req.body.Birthday
                 })
                     .then((user) => {
-                        res.status(201).send('Successfully registered!\n' + JSON.stringify({
+                        res.status(201).send('Successfully signed up!\n' + JSON.stringify({
                             Username: user.Username,
                             Email: user.Email,
                             Birthday: user.Birthday
@@ -233,9 +238,6 @@ app.delete('/users/deregister/:Username', passport.authenticate('jwt', { session
             res.status(400).send('User couldn\'t be deleted-Err: ' + err);
         })
 });
-
-//request should be logged used the common morgan format
-app.use(morgan('common'));
 
 app.use((err, req, res) => {
     console.error(err.stack);
