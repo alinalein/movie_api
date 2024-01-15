@@ -92,6 +92,7 @@ app.get('/movies/director/:Director', passport.authenticate('jwt', { session: fa
         })
 });
 
+// Genre.Name from DB -> req.params.Genre -> Genre from URL
 app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Genre.Name': req.params.Genre }, 'Genre')
         .then((movies) => {
@@ -149,6 +150,8 @@ check('Email', 'Please type a valid email').isEmail(),
 
 app.put('/users/update/:Username', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
 check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()],
+    check('Password', 'Please type a password').not().isEmpty(),
+    check('Email', 'Please type a valid email').isEmail(),
     passport.authenticate('jwt', { session: false }), async (req, res) => {
         if (req.user.Username !== req.params.Username) {
             return res.status(400).send('Permission denied!')
@@ -158,11 +161,12 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         }
+        let hashedPassword = Users.hashPassword(req.body.Password);
 
         await Users.findOneAndUpdate({ Username: req.params.Username }, {
             $set: {
                 Username: req.body.Username,
-                Password: req.body.Password,
+                Password: hashedPassword,
                 Email: req.body.Email,
                 Birthday: req.body.Birthday
             }
