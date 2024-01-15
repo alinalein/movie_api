@@ -115,7 +115,7 @@
 					"response": []
 				},
 				{
-					"name": "Register user",
+					"name": "Signup user",
 					"request": {
 						"method": "POST",
 						"header": [],
