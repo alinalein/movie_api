@@ -181,6 +181,26 @@ Birthday: Date
                 </td>
             </tr>
             <tr>
+                <td>Allow existing users to log in to own profile with Username and Password as Params</td>
+                <td>/users/login</td>
+                <td>POST</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/login</td>
+                <td>None</td>
+                <td>
+                    A JSON object showing the users data and his token:
+                    <pre>
+user: {
+    Username: {type: String},
+    Email: {type: String},
+    Birthday: Date,
+    FavoriteMovies: [{ObjectId, ref: 'Movie'}]
+},
+token: "...."
+            </pre>
+
+                </td>
+            </tr>
+            <tr>
                 <td>Allow users to update their Username</td>
                 <td>/users/update/[Username]</td>
                 <td>PUT</td>
@@ -252,26 +272,6 @@ FavoriteMovies: [{ObjectId, ref: 'Movie'}]
                 <td>
                     A text message that informs the user if the profile was
                     successfully deleted.
-                </td>
-            </tr>
-            <tr>
-                <td>Allow existing users to log in to own profile with Username and Password as Params</td>
-                <td>/users/login</td>
-                <td>POST</td>
-                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/login</td>
-                <td>None</td>
-                <td>
-                    A JSON object showing the users data and his token:
-                    <pre>
-user: {
-    Username: {type: String},
-    Email: {type: String},
-    Birthday: Date,
-    FavoriteMovies: [{ObjectId, ref: 'Movie'}]
-},
-token: "...."
-            </pre>
-
                 </td>
             </tr>
         </tbody>
