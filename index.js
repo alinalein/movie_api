@@ -9,9 +9,8 @@ const express = require('express'),
     Models = require('./models.js'),
     Movies = Models.Movie,
     Users = Models.User,
-    bcrypt = require('bcrypt');
-// middleware from express -> Cross-Origin Resource Sharing c
-cors = require('cors');
+    // middleware from express -> Cross-Origin Resource Sharing c
+    cors = require('cors');
 const { check, validationResult } = require('express-validator');
 
 //allows Mongoose to connect to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB');
@@ -41,6 +40,7 @@ app.use(cors({
     }
 }));
 
+//makes sure express gets to json format 
 app.use(express.json());
 // (app)-> applies express also to auth.js
 require('./auth')(app);
@@ -163,7 +163,7 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
 
         try {
             // Hash the password synchronously
-            const hashedPassword = bcrypt.hashSync(req.body.Password, 10); // Using bcrypt to hash the password
+            let hashedPassword = req.body.Password ? Users.hashPassword(req.body.Password) : Users.findOne({ Username: req.params.Username }).Password;
 
             const updatedUser = await Users.findOneAndUpdate(
                 { Username: req.params.Username },
