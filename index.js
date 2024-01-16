@@ -40,7 +40,7 @@ app.use(cors({
     }
 }));
 
-//makes sure express gets to json format
+//makes sure express gets to json format 
 app.use(express.json());
 // (app)-> applies express also to auth.js
 require('./auth')(app);
@@ -177,6 +177,10 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
                 },
                 { new: true }
             );
+
+            if (!updatedUser) {
+                return res.status(404).send('User not found');
+            }
 
             res.status(200).json({
                 Username: updatedUser.Username,
