@@ -9,8 +9,9 @@ const express = require('express'),
     Models = require('./models.js'),
     Movies = Models.Movie,
     Users = Models.User,
-    // middleware from express -> Cross-Origin Resource Sharing c
-    cors = require('cors');
+    bcrypt = require('bcrypt');
+// middleware from express -> Cross-Origin Resource Sharing c
+cors = require('cors');
 const { check, validationResult } = require('express-validator');
 
 //allows Mongoose to connect to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB');
@@ -19,7 +20,6 @@ mongoose.connect(process.env.CONNECTION_URI);
 
 //so I can use req.body 
 app.use(bodyParser.json());
-app.use(express.json());
 
 //directs to the documentation.html
 app.use(express.static('public'));
@@ -41,6 +41,7 @@ app.use(cors({
     }
 }));
 
+app.use(express.json());
 // (app)-> applies express also to auth.js
 require('./auth')(app);
 
@@ -159,29 +160,37 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         }
-        let hashedPassword = Users.hashPassword(req.body.Password);
 
-        await Users.findOneAndUpdate({ Username: req.params.Username }, {
-            $set: {
-                Username: req.body.Username,
-                Password: hashedPassword,
-                Email: req.body.Email,
-                Birthday: req.body.Birthday
+        try {
+            // Hash the password synchronously
+            const hashedPassword = bcrypt.hashSync(req.body.Password, 10); // Using bcrypt to hash the password
+
+            const updatedUser = await Users.findOneAndUpdate(
+                { Username: req.params.Username },
+                {
+                    $set: {
+                        Username: req.body.Username,
+                        Password: hashedPassword,
+                        Email: req.body.Email,
+                        Birthday: req.body.Birthday,
+                    },
+                },
+                { new: true }
+            );
+
+            if (!updatedUser) {
+                return res.status(404).send('User not found');
             }
-        },
-            //makes sure that the updated document is returned
-            { new: true })
-            .then((updatedUser) => {
-                res.status(201).send('Successfully updated the username\n' + JSON.stringify({
-                    Username: updatedUser.Username,
-                    Email: updatedUser.Email,
-                    Birthday: updatedUser.Birthday
-                }, null, 2));
-            })
-            .catch((err) => {
-                console.error(err);
-                res.status(400).send('Couldn\'t update user data: ' + err);
-            })
+
+            res.status(200).json({
+                Username: updatedUser.Username,
+                Email: updatedUser.Email,
+                Birthday: updatedUser.Birthday,
+            });
+        } catch (err) {
+            console.error(err);
+            res.status(500).send('Internal Server Error: ' + err);
+        }
     });
 
 app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
