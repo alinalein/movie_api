@@ -162,19 +162,19 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
         }
 
         try {
+            // Hash the password synchronously
+            let hashedPassword = req.body.Password ? Users.hashPassword(req.body.Password) : Users.findOne({ Username: req.params.Username }).Password;
 
-            const updateFields = {
-                // only updated values when provided->true-> otherwise value in DB doesnt change
-                ...(req.body.Username && { Username: req.body.Username }),
-                ...(req.body.Password && { Password: Users.hashPassword(req.body.Password) }),
-                ...(req.body.Email && { Email: req.body.Email }),
-                ...(req.body.Birthday && { Birthday: req.body.Birthday }),
-            };
-
-            // Update the user with the provided fields
             const updatedUser = await Users.findOneAndUpdate(
                 { Username: req.params.Username },
-                { $set: updateFields },
+                {
+                    $set: {
+                        Username: req.body.Username,
+                        Password: hashedPassword,
+                        Email: req.body.Email,
+                        Birthday: req.body.Birthday,
+                    },
+                },
                 { new: true }
             );
 
