@@ -19,7 +19,7 @@ mongoose.connect(process.env.CONNECTION_URI);
 
 //so I can use req.body 
 app.use(bodyParser.json());
-// app.use(express.json()); -> same job as bodyParser
+app.use(express.json());
 
 //directs to the documentation.html
 app.use(express.static('public'));
@@ -160,6 +160,7 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
             return res.status(422).json({ errors: errors.array() });
         }
         let hashedPassword = Users.hashPassword(req.body.Password);
+
         await Users.findOneAndUpdate({ Username: req.params.Username }, {
             $set: {
                 Username: req.body.Username,
