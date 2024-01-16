@@ -148,41 +148,51 @@ check('Email', 'Please type a valid email').isEmail(),
         })
 });
 
-app.put('/users/update/:Username', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
-check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()],
-    passport.authenticate('jwt', { session: false }), async (req, res) => {
-        if (req.user.Username !== req.params.Username) {
-            return res.status(400).send('Permission denied!')
-        }
+app.put('/users/update/:Username', [
+    check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
+    check('Username', 'Username contains non-alphanumeric characters - not allowed.').isAlphanumeric(),
+    passport.authenticate('jwt', { session: false }),
+], async (req, res) => {
+    if (req.user.Username !== req.params.Username) {
+        return res.status(400).send('Permission denied!');
+    }
 
-        let errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            return res.status(422).json({ errors: errors.array() });
-        }
+    let errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
+    }
+
+    try {
         let hashedPassword = Users.hashPassword(req.body.Password);
 
-        await Users.findOneAndUpdate({ Username: req.params.Username }, {
-            $set: {
-                Username: req.body.Username,
-                Password: hashedPassword,
-                Email: req.body.Email,
-                Birthday: req.body.Birthday
-            }
-        },
-            //makes sure that the updated document is returned
-            { new: true })
-            .then((updatedUser) => {
-                res.status(201).send('Successfully updated the username\n' + JSON.stringify({
-                    Username: updatedUser.Username,
-                    Email: updatedUser.Email,
-                    Birthday: updatedUser.Birthday
-                }, null, 2));
-            })
-            .catch((err) => {
-                console.error(err);
-                res.status(400).send('Couldn\'t update user data: ' + err);
-            })
-    });
+        const updatedUser = await Users.findOneAndUpdate(
+            { Username: req.params.Username },
+            {
+                $set: {
+                    Username: req.body.Username,
+                    Password: hashedPassword,
+                    Email: req.body.Email,
+                    Birthday: req.body.Birthday,
+                },
+            },
+            { new: true }
+        );
+
+        if (!updatedUser) {
+            return res.status(404).send('User not found');
+        }
+
+        res.status(200).json({
+            Username: updatedUser.Username,
+            Email: updatedUser.Email,
+            Birthday: updatedUser.Birthday,
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error: ' + err);
+    }
+});
+
 
 app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     if (req.user.Username !== req.params.Username) {
