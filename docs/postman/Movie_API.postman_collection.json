@@ -15,7 +15,7 @@
 						"method": "POST",
 						"header": [],
 						"url": {
-							"raw": "https://movie-api-lina-834bc70d6952.herokuapp.com/users/login?Username=ina123&Password=ina123",
+							"raw": "https://movie-api-lina-834bc70d6952.herokuapp.com/users/login?Username=ina1234&Password=ina1234",
 							"protocol": "https",
 							"host": [
 								"movie-api-lina-834bc70d6952",
@@ -30,11 +30,11 @@
 							"query": [
 								{
 									"key": "Username",
-									"value": "ina123"
+									"value": "ina1234"
 								},
 								{
 									"key": "Password",
-									"value": "ina123"
+									"value": "ina1234"
 								}
 							]
 						}
@@ -58,7 +58,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"Username\": \"Lina\"\r\n}\r\n",
+							"raw": "{\r\n    \"Username\":\"ina123\"\r\n}\r\n",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -66,7 +66,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://movie-api-lina-834bc70d6952.herokuapp.com/users/update/ina123",
+							"raw": "https://movie-api-lina-834bc70d6952.herokuapp.com/users/update/ina1234",
 							"protocol": "https",
 							"host": [
 								"movie-api-lina-834bc70d6952",
@@ -76,7 +76,7 @@
 							"path": [
 								"users",
 								"update",
-								"ina123"
+								"ina1234"
 							]
 						}
 					},
@@ -129,7 +129,7 @@
 							}
 						},
 						"url": {
-							"raw": "https://movie-api-lina-834bc70d6952.herokuapp.com/users/register",
+							"raw": "https://movie-api-lina-834bc70d6952.herokuapp.com/users/signup",
 							"protocol": "https",
 							"host": [
 								"movie-api-lina-834bc70d6952",
@@ -138,7 +138,7 @@
 							],
 							"path": [
 								"users",
-								"register"
+								"signup"
 							]
 						}
 					},
@@ -292,7 +292,7 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://movie-api-lina-834bc70d6952.herokuapp.com/users/Alina123/movies/remove/6564b925bbb8cb9401c6a6a4",
+							"raw": "https://movie-api-lina-834bc70d6952.herokuapp.com/users/ina1234/movies/remove/6564b925bbb8cb9401c6a6a4",
 							"protocol": "https",
 							"host": [
 								"movie-api-lina-834bc70d6952",
@@ -301,7 +301,7 @@
 							],
 							"path": [
 								"users",
-								"Alina123",
+								"ina1234",
 								"movies",
 								"remove",
 								"6564b925bbb8cb9401c6a6a4"
@@ -326,7 +326,7 @@
 						"method": "PUT",
 						"header": [],
 						"url": {
-							"raw": "https://movie-api-lina-834bc70d6952.herokuapp.com/users/Alina123/movies/add/6564b925bbb8cb9401c6a6a4",
+							"raw": "https://movie-api-lina-834bc70d6952.herokuapp.com/users/ina1234/movies/add/6564b925bbb8cb9401c6a6a4",
 							"protocol": "https",
 							"host": [
 								"movie-api-lina-834bc70d6952",
@@ -335,7 +335,7 @@
 							],
 							"path": [
 								"users",
-								"Alina123",
+								"ina1234",
 								"movies",
 								"add",
 								"6564b925bbb8cb9401c6a6a4"
