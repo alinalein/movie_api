@@ -12,7 +12,7 @@ const express = require('express'),
     // middleware from express -> Cross-Origin Resource Sharing c
     cors = require('cors');
 const { check, validationResult } = require('express-validator');
-
+require('dotenv').config()
 //allows Mongoose to connect to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB');
 //connects Mongoose to the DB in Mongo Atlas 
 mongoose.connect(process.env.CONNECTION_URI);

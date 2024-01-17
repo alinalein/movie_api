@@ -43,7 +43,6 @@ module.exports = (router) => {
                     token: token
                 });
             });
-            console.log('user', user)
         })(req, res);
     })
 }
