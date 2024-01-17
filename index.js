@@ -162,6 +162,17 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
         }
 
         try {
+            // const existingUsername = await Users.findOne({ Username: req.body.Username });
+            // if (existingUsername && existingUsername.Username !== req.params.Username) {
+            //     return res.status(409).send('Username already exists');
+            // }
+
+            // // Check if the new email already exists in DB
+            // const existingEmail = await Users.findOne({ Email: req.body.Email });
+            // if (existingEmail && existingEmail.Username !== req.params.Username) {
+            //     return res.status(409).send('Email already exists');
+            // }
+
             // Hash the password synchronously
             let hashedPassword = req.body.Password ? Users.hashPassword(req.body.Password) : Users.findOne({ Username: req.params.Username }).Password;
 
@@ -177,10 +188,6 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
                 },
                 { new: true }
             );
-
-            if (!updatedUser) {
-                return res.status(404).send('User not found');
-            }
 
             res.status(200).json({
                 Username: updatedUser.Username,

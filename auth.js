@@ -19,7 +19,7 @@ let generateJWTToken = (user) => {
 module.exports = (router) => {
     router.post('/users/login', (req, res) => {
         // uses local strategy from passport.js to authenticate the user
-        passport.authenticate('local', { session: false }, (error, user, info) => {
+        passport.authenticate('local', { session: false }, (error, user) => {
             if (error || !user) {
                 return res.status(400).json({
                     message: 'Something seems to be wrong',
@@ -38,10 +38,12 @@ module.exports = (router) => {
                     FavoriteMovies: user.FavoriteMovies
                 };
                 // after login was successful return this data
-                return res.status(201).json({ 
-                    user: responseUser,  
-                    token: token });
+                return res.status(201).json({
+                    user: responseUser,
+                    token: token
+                });
             });
+            console.log('user', user)
         })(req, res);
     })
 }
