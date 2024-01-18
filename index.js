@@ -155,8 +155,13 @@ check('Email', 'Please type a valid email').isEmail(),
 
 app.put('/users/update/:Username', [check('Username', 'The user name must be at least 5 characters long').isLength({ min: 5 }),
 check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-check('Password', 'The password must be at least 8 characters long').isLength({ min: 8 }).optional(),
-check('Email', 'Please type a valid email').isEmail().optional()
+check('Password').optional().isLength({ min: 8 }).withMessage('The password must be at least 8 characters long')
+    .matches(/\d/)
+    .withMessage('Password must contain at least 1 number')
+    .matches(/[A-Za-z]/)
+    .withMessage('Password must contain at least 1 letter'),
+check('Email').optional().isEmail().withMessage('Please type a valid email')
+
 ],
     passport.authenticate('jwt', { session: false }), async (req, res) => {
         if (req.user.Username !== req.params.Username) {
