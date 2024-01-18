@@ -1,2 +1,4 @@
 
 127.0.0.1 - - [17/Jan/2024:15:21:10 +0000] "GET /movies/ HTTP/1.1" 201 6705 "-" "PostmanRuntime/7.36.1"
+127.0.0.1 - - [18/Jan/2024:21:43:21 +0000] "PUT /users/update/ina12 HTTP/1.1" 200 83 "-" "PostmanRuntime/7.36.1"
+127.0.0.1 - - [18/Jan/2024:21:48:07 +0000] "PUT /users/update/ina123 HTTP/1.1" 200 84 "-" "PostmanRuntime/7.36.1"
