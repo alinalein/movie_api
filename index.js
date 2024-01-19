@@ -108,7 +108,7 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
 // use express validation methods
 app.post('/users/signup', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
 check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-check('Password', 'The password is required and must be at least 8 characters long').not().isEmpty().isLength({ min: 8 })
+check('Password', 'The password is required and must be at least 5 characters long').not().isEmpty().isLength({ min: 5 })
     .matches(/\d/)
     .withMessage('Password must contain at least 1 number')
     .matches(/[A-Za-z]/)
@@ -153,32 +153,28 @@ check('Email', 'Please type a valid email').isEmail(),
         })
 });
 
-app.put('/users/update/:Username', [check('Username', 'The user name must be at least 5 characters long').isLength({ min: 5 }),
-check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()],
+app.put('/users/update/:Username',
+    // [check('Username').optional()
+    //     .isLength({ min: 5 }).withMessage('The username must be at least 5 characters long')
+    //     .isAlphanumeric().withMessage('Username contains non alphanumeric characters - not allowed.'),
+    // check('Password')
+    //     .optional()
+    //     .isLength({ min: 5 }).withMessage('The password must be at least 5 characters long')
+    //     .custom((value) => {
+    //         if (!/\d/.test(value)) {
+    //             throw new Error('Password must contain at least 1 number');
+    //         }
+    //         if (!/[A-Za-z]/.test(value)) {
+    //             throw new Error('Password must contain at least 1 letter');
+    //         }
+    //         return true;
+    //     }),
+    // check('Email')
+    //     .optional()
+    //     .isEmail().withMessage('Please type a valid email')],
     passport.authenticate('jwt', { session: false }), async (req, res) => {
         if (req.user.Username !== req.params.Username) {
             return res.status(400).send('Permission denied!')
-        }
-        if (req.body.Password) {
-            check('Password')
-                .isLength({ min: 8 }).withMessage('The password must be at least 8 characters long')
-                .custom((value) => {
-                    if (!/\d/.test(value)) {
-                        throw new Error('Password must contain at least 1 number');
-                    }
-                    if (!/[A-Za-z]/.test(value)) {
-                        throw new Error('Password must contain at least 1 letter');
-                    }
-                    return true;
-                })
-                .run(req);
-        }
-
-        // Check if Email exists and apply validation if needed
-        if (req.body.Email) {
-            check('Email')
-                .isEmail().withMessage('Please type a valid email')
-                .run(req);
         }
 
         let errors = validationResult(req);
@@ -198,19 +194,18 @@ check('Username', 'Username contains non alphanumeric characters - not allowed.'
             //     return res.status(409).send('Email already exists');
             // }
 
-            // Hash the password synchronously
-            let hashedPassword = req.body.Password ? Users.hashPassword(req.body.Password) : Users.findOne({ Username: req.params.Username }).Password;
 
+            // Set values only if they are provided in the request body
+            const updateFields = {};
+            if (req.body.Username) updateFields.Username = req.body.Username;
+            if (req.body.Password) updateFields.Password = Users.hashPassword(req.body.Password);
+            if (req.body.Email) updateFields.Email = req.body.Email;
+            if (req.body.Birthday) updateFields.Birthday = req.body.Birthday;
+
+            // Update the user with new values
             const updatedUser = await Users.findOneAndUpdate(
                 { Username: req.params.Username },
-                {
-                    $set: {
-                        Username: req.body.Username,
-                        Password: hashedPassword,
-                        Email: req.body.Email,
-                        Birthday: req.body.Birthday,
-                    },
-                },
+                { $set: updateFields },
                 { new: true }
             );
 
