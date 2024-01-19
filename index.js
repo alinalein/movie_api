@@ -108,11 +108,10 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
 // use express validation methods
 app.post('/users/signup', [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
 check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
-check('Password', 'The password is required and must be at least 5 characters long').not().isEmpty().isLength({ min: 5 })
-    .matches(/\d/)
-    .withMessage('Password must contain at least 1 number')
-    .matches(/[A-Za-z]/)
-    .withMessage('Password must contain at least 1 letter'),
+check('Password', 'The password is required and must be at least 8 characters long').not().isEmpty().isLength({ min: 8 }),
+// .withMessage('Password must contain at least 1 number')
+// .matches(/[A-Za-z]/)
+// .withMessage('Password must contain at least 1 letter')
 check('Email', 'Please type a valid email').isEmail(),
 ], async (req, res) => {
 
@@ -154,24 +153,15 @@ check('Email', 'Please type a valid email').isEmail(),
 });
 
 app.put('/users/update/:Username',
-    // [check('Username').optional()
-    //     .isLength({ min: 5 }).withMessage('The username must be at least 5 characters long')
-    //     .isAlphanumeric().withMessage('Username contains non alphanumeric characters - not allowed.'),
-    // check('Password')
-    //     .optional()
-    //     .isLength({ min: 5 }).withMessage('The password must be at least 5 characters long')
-    //     .custom((value) => {
-    //         if (!/\d/.test(value)) {
-    //             throw new Error('Password must contain at least 1 number');
-    //         }
-    //         if (!/[A-Za-z]/.test(value)) {
-    //             throw new Error('Password must contain at least 1 letter');
-    //         }
-    //         return true;
-    //     }),
-    // check('Email')
-    //     .optional()
-    //     .isEmail().withMessage('Please type a valid email')],
+    [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
+    check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric(),
+    check('Password', 'The password is required and must be at least 8 characters long').not().isEmpty().isLength({ min: 8 }),
+    // .matches(/\d/)
+    //.optional()
+    // .withMessage('Password must contain at least 1 number')
+    // .matches(/[A-Za-z]/)
+    // .withMessage('Password must contain at least 1 letter')
+    check('Email', 'Please type a valid email').isEmail()],
     passport.authenticate('jwt', { session: false }), async (req, res) => {
         if (req.user.Username !== req.params.Username) {
             return res.status(400).send('Permission denied!')
