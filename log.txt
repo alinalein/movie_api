@@ -24,3 +24,8 @@
 127.0.0.1 - - [19/Jan/2024:19:58:03 +0000] "PUT /users/update/ina123 HTTP/1.1" 200 83 "-" "PostmanRuntime/7.36.1"
 127.0.0.1 - - [19/Jan/2024:20:12:18 +0000] "PUT /users/update/ina123 HTTP/1.1" 200 83 "-" "PostmanRuntime/7.36.1"
 127.0.0.1 - - [19/Jan/2024:20:16:32 +0000] "PUT /users/update/ina123 HTTP/1.1" 200 83 "-" "PostmanRuntime/7.36.1"
+127.0.0.1 - - [19/Jan/2024:20:59:52 +0000] "PUT /users/update/123ina HTTP/1.1" 400 18 "-" "PostmanRuntime/7.36.1"
+127.0.0.1 - - [19/Jan/2024:21:00:05 +0000] "PUT /users/update/123ina HTTP/1.1" 401 - "-" "PostmanRuntime/7.36.1"
+127.0.0.1 - - [19/Jan/2024:21:00:30 +0000] "PUT /users/update/123ina HTTP/1.1" 422 282 "-" "PostmanRuntime/7.36.1"
+127.0.0.1 - - [19/Jan/2024:21:01:21 +0000] "PUT /users/update/123ina HTTP/1.1" 400 60 "-" "PostmanRuntime/7.36.1"
+127.0.0.1 - - [19/Jan/2024:21:01:28 +0000] "PUT /users/update/123ina HTTP/1.1" 200 84 "-" "PostmanRuntime/7.36.1"
