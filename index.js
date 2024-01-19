@@ -181,7 +181,7 @@ app.put('/users/update/:Username',
             const existingUser = await Users.findOne({ Username });
             //if the username already in DB and not owned by current user->give an error message
             if (existingUser && existingUser.Username !== req.params.Username) {
-                return res.status(400).json({ error: 'Username already in use. Choose a different one.' });
+                return res.status(401).json({ error: 'Username already in use. Choose a different one.' });
             }
             // Set values only if they are provided in the request body
             const updateFields = {};
