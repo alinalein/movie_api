@@ -183,18 +183,15 @@ app.put('/users/update/:Username',
         }
 
         try {
-            // const existingUsername = await Users.findOne({ Username: req.body.Username });
-            // if (existingUsername && existingUsername.Username !== req.params.Username) {
-            //     return res.status(409).send('Username already exists');
-            // }
+            // extract Username from req.body
+            const { Username } = req.body;
 
-            // // Check if the new email already exists in DB
-            // const existingEmail = await Users.findOne({ Email: req.body.Email });
-            // if (existingEmail && existingEmail.Username !== req.params.Username) {
-            //     return res.status(409).send('Email already exists');
-            // }
-
-
+            // Check if new username already in the BD 
+            const existingUser = await Users.findOne({ Username });
+            //if the username already in DB and not owned by current user->give an error message
+            if (existingUser && existingUser.Username !== req.params.Username) {
+                return res.status(400).json({ error: 'Username already in use. Choose a different one.' });
+            }
             // Set values only if they are provided in the request body
             const updateFields = {};
             if (req.body.Username) updateFields.Username = req.body.Username;
