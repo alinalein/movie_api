@@ -187,7 +187,7 @@ app.put('/users/update/:Username',
             const updateFields = {};
             if (req.body.Username) updateFields.Username = req.body.Username;
             if (req.body.Password) updateFields.Password = Users.hashPassword(req.body.Password);
-            if (req.body.Email !== "" && req.body.Email !== null) updateFields.Email = req.body.Email;
+            if (req.body.Email) updateFields.Email = req.body.Email;
             if (req.body.Birthday) updateFields.Birthday = req.body.Birthday;
 
             console.log('req.Body:', req.body)
