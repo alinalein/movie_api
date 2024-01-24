@@ -163,10 +163,13 @@ app.put('/users/update/:Username',
         // .withMessage('Password must contain at least 1 letter')
         // check('Email', 'Please type a valid email').isEmail()
     ],
+
     passport.authenticate('jwt', { session: false }), async (req, res) => {
+
         if (req.user.Username !== req.params.Username) {
             return res.status(400).send('Permission denied!')
         }
+        console.log('req.Body:', req.body)
 
         let errors = validationResult(req);
         if (!errors.isEmpty()) {
@@ -190,7 +193,7 @@ app.put('/users/update/:Username',
             if (req.body.Email) updateFields.Email = req.body.Email;
             if (req.body.Birthday) updateFields.Birthday = req.body.Birthday;
 
-            console.log('req.Body:', req.body)
+
             console.log('fields:', updateFields)
             // Update the user with new values
             const updatedUser = await Users.findOneAndUpdate(
