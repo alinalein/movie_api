@@ -172,6 +172,7 @@ app.put('/users/update/:Username',
         console.log('req.Body:', req.body)
 
         let errors = validationResult(req);
+        console.log('error:', errors)
         if (!errors.isEmpty()) {
             return res.status(422).json({ errors: errors.array() });
         }
@@ -190,7 +191,7 @@ app.put('/users/update/:Username',
             const updateFields = {};
             if (req.body.Username) updateFields.Username = req.body.Username;
             if (req.body.Password) updateFields.Password = Users.hashPassword(req.body.Password);
-            if (req.body.Email) updateFields.Email = req.body.Email;
+            if (req.body.Email !== "" && req.body.Email !== null) updateFields.Email = req.body.Email;
             if (req.body.Birthday) updateFields.Birthday = req.body.Birthday;
 
 
@@ -201,7 +202,7 @@ app.put('/users/update/:Username',
                 { $set: updateFields },
                 { new: true }
             );
-
+            console.log('updated user:', updatedUser)
             res.status(200).json({
                 Username: updatedUser.Username,
                 Email: updatedUser.Email,
