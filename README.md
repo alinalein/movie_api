@@ -27,7 +27,7 @@ npm install
 ```
 ### Run the server
 ```
-npm start
+npm dev
 ```
 
 ## API Endpoints 🔍
