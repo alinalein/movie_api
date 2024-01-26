@@ -194,19 +194,18 @@ app.put('/users/update/:Username',
             if (req.body.Email !== "" && req.body.Email !== null) updateFields.Email = req.body.Email;
             if (req.body.Birthday) updateFields.Birthday = req.body.Birthday;
 
-
-            console.log('fields:', updateFields)
             // Update the user with new values
             const updatedUser = await Users.findOneAndUpdate(
                 { Username: req.params.Username },
                 { $set: updateFields },
                 { new: true }
             );
-            console.log('updated user:', updatedUser)
+
             res.status(200).json({
                 Username: updatedUser.Username,
                 Email: updatedUser.Email,
                 Birthday: updatedUser.Birthday,
+                FavoriteMovies: updatedUser.FavoriteMovies
             });
         } catch (err) {
             console.error(err);
