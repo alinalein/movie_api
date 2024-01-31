@@ -125,7 +125,7 @@ check('Email', 'Please type a valid email').isEmail(),
     await Users.findOne({ Username: req.body.Username })
         .then((user) => {
             if (user) {
-                res.status(200).send('User with ' + req.body.Username + ' already exist');
+                res.status(401).send('User with ' + req.body.Username + ' already exist');
             } else {
                 Users.create({
                     Username: req.body.Username,
