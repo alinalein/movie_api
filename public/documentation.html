@@ -133,23 +133,6 @@ Description: String
                 </td>
             </tr>
             <tr>
-                <td>Get user info by Username</td>
-                <td>/users/[Username]</td>
-                <td>GET</td>
-                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/:Username</td>
-                <td>None</td>
-                <td>
-                    A JSON object with the data about the user:
-                    <pre>
-{
-Username: {type: String},
-Email: {type: String},
-Birthday: Date
-}
-                </pre>
-                </td>
-            </tr>
-            <tr>
                 <td>Return data about a director (bio, birth year, death year) by name</td>
                 <td>/movies/director/[Director]</td>
                 <td>GET</td>
@@ -164,7 +147,23 @@ Bio: String,
 Birth: String
 }
                     </pre>
-
+                </td>
+            </tr>
+            <tr>
+                <td>Get user info by Username</td>
+                <td>/users/[Username]</td>
+                <td>GET</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/:Username</td>
+                <td>None</td>
+                <td>
+                    A JSON object with the data about the user:
+                    <pre>
+{
+Username: {type: String},
+Email: {type: String},
+Birthday: Date
+}
+                </pre>
                 </td>
             </tr>
             <tr>
