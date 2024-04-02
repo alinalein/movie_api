@@ -152,6 +152,17 @@ check('Email', 'Please type a valid email').isEmail(),
         })
 });
 
+app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await Users.findOne({ Username: req.params.Username })
+        .then((user) => {
+            res.status(201).json(user);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(400).send('An Error occurred: ' + err);
+        })
+});
+
 app.put('/users/update/:Username',
     [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()
