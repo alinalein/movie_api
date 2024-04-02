@@ -39,6 +39,7 @@ npm dev
 - `/movies/director/[Director]` : Return data about a director by name
 - `/users/signup` : Allow new users to signup
 - `/users/update/[Username]` : Allow users to update their username
+- `/users/[Username]` : Looks up info about a specific user by username
 - `/users/[Username]/movies/add/[MovieID]` : Allow users to add a movie from their list of favorites
 - `/users/[Username]/movies/remove/[MovieId]` : Allow users to remove a movie from their list of favorites
 - `/users/deregister/[Username]` : Allow existing users to deregister
