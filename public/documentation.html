@@ -133,6 +133,23 @@ Description: String
                 </td>
             </tr>
             <tr>
+                <td>Get user info by Username</td>
+                <td>/users/[Username]</td>
+                <td>GET</td>
+                <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/:Username</td>
+                <td>None</td>
+                <td>
+                    A JSON object with the data about the user:
+                    <pre>
+{
+Username: {type: String},
+Email: {type: String},
+Birthday: Date
+}
+                </pre>
+                </td>
+            </tr>
+            <tr>
                 <td>Return data about a director (bio, birth year, death year) by name</td>
                 <td>/movies/director/[Director]</td>
                 <td>GET</td>
@@ -201,7 +218,7 @@ token: "...."
                 </td>
             </tr>
             <tr>
-                <td>Allow users to update their Username</td>
+                <td>Allow users to update their details</td>
                 <td>/users/update/[Username]</td>
                 <td>PUT</td>
                 <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/update/:Username</td>
@@ -223,24 +240,6 @@ Birthday: Date
 }
                 </pre>
                 </td>
-            </tr>
-            <td>Get user info by Username</td>
-            <td>/users/[Username]</td>
-            <td>GET</td>
-            <td>https://movie-api-lina-834bc70d6952.herokuapp.com/users/:Username</td>
-            <td>None</td>
-            <td>
-                A JSON object with the data about the user:
-                <pre>
-{
-Username: {type: String},
-Email: {type: String},
-Birthday: Date
-}
-                </pre>
-            </td>
-            <tr>
-
             </tr>
             <tr>
                 <td>Allow users to add a movie to their list of favorites (showing only a text that a movie has been
