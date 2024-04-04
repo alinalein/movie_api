@@ -127,7 +127,7 @@ check('Email', 'Please type a valid email').isEmail(),
         });
 
         // Send the error messages array with status 422
-        return res.status(422).send({ message: 'Validation failed', errors: errorMessages });
+        return res.status(422).jsono({ errors: 'Validation failed' + errorMessages });
     }
     let hashedPassword = Users.hashPassword(req.body.Password);
     await Users.findOne({ Username: req.body.Username })
