@@ -28,7 +28,8 @@ app.use(express.urlencoded({ extended: true }));
 
 // define allowed origins 
 // app.use(cors());
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:4200', 'http://localhost:1234', 'https://movie-api-lina-834bc70d6952.herokuapp.com', 'https://myflix-alinalein.netlify.app'];
+// 'http://localhost:4200',
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:1234', 'https://movie-api-lina-834bc70d6952.herokuapp.com', 'https://myflix-alinalein.netlify.app'];
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
@@ -142,13 +143,13 @@ check('Email', 'Please type a valid email').isEmail(),
                     })
                     .catch((err) => {
                         console.error(err);
-                        res.status(400).send('An Error occurred: ' + err);
+                        res.status(400).send('An Error occurred 1: ' + err);
                     })
             }
         })
         .catch((err) => {
             console.error(err);
-            res.status(400).send('An Error occurred: ' + err);
+            res.status(400).send('An Error occurred 2: ' + err);
         })
 });
 
