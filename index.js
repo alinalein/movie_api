@@ -118,7 +118,11 @@ check('Email', 'Please type a valid email').isEmail(),
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        return res.status(422).json({ errors: errors.array() });
+        errors.array().forEach(error => {
+            console.error(`Validation error for ${error.param}: ${error.msg}`);
+        });
+
+        return res.status(422).json({ message: 'Validation failed', errors: errors.array() });
     }
 
     let hashedPassword = Users.hashPassword(req.body.Password);
