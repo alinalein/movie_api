@@ -118,13 +118,17 @@ check('Email', 'Please type a valid email').isEmail(),
     let errors = validationResult(req);
 
     if (!errors.isEmpty()) {
-        errors.array().forEach(error => {
-            console.error(`Validation error for ${error.param}: ${error.msg}`);
+        // Extract error messages from validation errors
+        const errorMessages = errors.array().map(error => error.msg);
+
+        // Log all error messages
+        errorMessages.forEach(errorMessage => {
+            console.error(`Validation error: ${errorMessage}`);
         });
 
-        return res.status(422).json({ message: 'Validation failed', errors: errors.array() });
+        // Send the error messages array with status 422
+        return res.status(422).json({ errors: errorMessages });
     }
-
     let hashedPassword = Users.hashPassword(req.body.Password);
     await Users.findOne({ Username: req.body.Username })
         .then((user) => {
