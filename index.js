@@ -127,7 +127,7 @@ check('Email', 'Please type a valid email').isEmail(),
         });
 
         // Send the error messages array with status 422
-        return res.status(422).jsono({ errors: 'Validation failed' + errorMessages });
+        return res.status(422).json({ errors: 'Validation failed: ' + errorMessages });
     }
     let hashedPassword = Users.hashPassword(req.body.Password);
     await Users.findOne({ Username: req.body.Username })
@@ -142,11 +142,12 @@ check('Email', 'Please type a valid email').isEmail(),
                     Birthday: req.body.Birthday
                 })
                     .then((user) => {
-                        res.status(201).send('Successfully signed up!\n' + JSON.stringify({
+                        res.status(201).json({
+                            status: 'Successfully signed up!',
                             Username: user.Username,
                             Email: user.Email,
                             Birthday: user.Birthday
-                        }, null, 2));
+                        });
                     })
                     .catch((err) => {
                         console.error(err);
