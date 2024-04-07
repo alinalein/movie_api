@@ -28,7 +28,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // define allowed origins 
 // app.use(cors());
-let allowedOrigins = ['http://localhost:8080', 'http://localhost:4200', 'http://localhost:1234', 'https://alinalein.github.io/myFlix-Angular-client', 'https://movie-api-lina-834bc70d6952.herokuapp.com', 'https://myflix-alinalein.netlify.app'];
+let allowedOrigins = ['http://localhost:8080', 'http://localhost:4200', 'http://localhost:1234', 'https://alinalein.github.io', 'https://movie-api-lina-834bc70d6952.herokuapp.com', 'https://myflix-alinalein.netlify.app'];
 app.use(cors({
     origin: (origin, callback) => {
         if (!origin) return callback(null, true);
