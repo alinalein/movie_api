@@ -242,10 +242,17 @@ app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', { s
         { $push: { FavoriteMovies: req.params.MovieID } },
         { new: true })
         .then((updatedUser) => {
-            res.status(201).send('Successfully added the movie to the favorite List!\n' + JSON.stringify({
-                Username: updatedUser.Username,
-                FavoriteMovies: updatedUser.FavoriteMovies,
-            }, null, 2));
+            res.status(201).json({
+                message: 'Successfully added the movie to the favorite List!\n',
+                updatedUser: {
+                    Username: updatedUser.Username,
+                    FavoriteMovies: updatedUser.FavoriteMovies,
+                }
+            })
+            // ;.send('Successfully added the movie to the favorite List!\n' + JSON.stringify({ 
+            //     Username: updatedUser.Username,
+            //     FavoriteMovies: updatedUser.FavoriteMovies,
+            // }, null, 2));
         })
         .catch((err) => {
             console.error(err);
@@ -261,10 +268,13 @@ app.delete('/users/:Username/movies/remove/:MovieID', passport.authenticate('jwt
         { $pull: { FavoriteMovies: req.params.MovieID } },
         { new: true })
         .then((updatedUser) => {
-            res.status(200).send('Successfully deleted the movie to the favorite List!\n' + JSON.stringify({
-                Username: updatedUser.Username,
-                FavoriteMovies: updatedUser.FavoriteMovies,
-            }, null, 2));
+            res.status(200).json({
+                message: 'Successfully deleted the movie from the favorite list!',
+                updatedUser: {
+                    Username: updatedUser.Username,
+                    FavoriteMovies: updatedUser.FavoriteMovies,
+                }
+            });
         })
         .catch((err) => {
             console.error(err);
@@ -279,7 +289,7 @@ app.delete('/users/deregister/:Username', passport.authenticate('jwt', { session
     await Users.findOneAndDelete({ Username: req.params.Username })
         .then((user) => {
             if (!user) {
-                res.status(200).send('No user with Username: ' + req.params.Username + ' found');
+                res.status(400).send('No user with Username: ' + req.params.Username + ' found');
             } else {
                 res.status(201).send('User with Username: ' + req.params.Username + ' was deleted');
             }
