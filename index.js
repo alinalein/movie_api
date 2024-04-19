@@ -284,21 +284,23 @@ app.delete('/users/:Username/movies/remove/:MovieID', passport.authenticate('jwt
 
 app.delete('/users/deregister/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     if (req.user.Username !== req.params.Username) {
-        return res.status(400).send('Permission denied!')
+        return res.status(400).send('Permission denied!');
     }
-    await Users.findOneAndDelete({ Username: req.params.Username })
-        .then((user) => {
-            if (!user) {
-                res.status(400).send('No user with Username: ' + req.params.Username + ' found');
-            } else {
-                res.status(201).send('User with Username: ' + req.params.Username + ' was deleted');
-            }
-        })
-        .catch((err) => {
-            console.error(err);
-            res.status(400).send('User couldn\'t be deleted-Err: ' + err);
-        })
+    try {
+        const user = await Users.findOneAndDelete({ Username: req.params.Username });
+        if (!user) {
+            return res.status(400).send('No user with Username: ' + req.params.Username + ' found');
+        } else {
+            return res.status(201).json({
+                message: 'User with Username: ' + req.params.Username + ' was deleted'
+            });
+        }
+    } catch (err) {
+        console.error(err);
+        return res.status(400).send('User couldn\'t be deleted-Err: ' + err);
+    }
 });
+
 
 app.use((err, req, res) => {
     console.error(err.stack);
