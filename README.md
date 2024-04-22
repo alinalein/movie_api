@@ -16,7 +16,6 @@ Hello to my Movie_API! It is the server-side part of the web application. The us
 ```
 git clone https://github.com/alinalein/movie_api.git
 ```
-
 ### Change the directory:
 ```
 cd movie_api
