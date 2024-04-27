@@ -59,7 +59,7 @@ app.use(morgan('combined', { stream: accessLogStream }));
  * @name indexRoute
  * @param {Object} req - Express request object. 
  * @param {Object} res - Express response object. 
- * @returns { String } Containing the message (Welcome to the best movie search app ever!(Maybe😁))
+ * @returns {String} Containing the message ("Welcome to the best movie search app ever!(Maybe😁))
  */
 
 app.get('/', (req, res) => {
@@ -72,8 +72,8 @@ app.get('/', (req, res) => {
  * @name getMovies
  * @param {Object} req - Express request object. 
  * @param {Object} res - Express response object. 
- * @returns {Promise<Object[]>} Containing an array of all fetched movies from the database. 
- * @throws {Error} If a problem occurs while fetching the movies from the database.  
+ * @returns {Promise<Object[]>} Containing an array of all fetched movies from the database if promise resolved.
+ * @throws {Error} If a problem occurs while fetching the movies from the database or if the user is not logged in.   
  */
 
 // applies the jwt authentication to every route, except register 
@@ -94,8 +94,8 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
  * @name getMovie
  * @param {Object} req - Express request object. Parameters: {String} Title - (movie Title)
  * @param {Object} res - Express response object. 
- * @returns {Promise<Object>} Containing the requested movie.
- * @throws {Error} If a problem occurs while fetching the requested movie from the database. 
+ * @returns {Promise<Object>} Containing the requested movie if promise resolved.
+ * @throws {Error} If a problem occurs while fetching the requested movie from the database or if the user is not logged in.. 
  */
 
 app.get('/movies/title/:Title', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -117,8 +117,8 @@ app.get('/movies/title/:Title', passport.authenticate('jwt', { session: false })
  * @name getDirector
  * @param {Object} req - Express request object. Parameters: {String} Director - (movie Director)
  * @param {Object} res - Express response object. 
- * @returns {Promise<Object>} Containing the requested director.
- * @throws {Error} If a problem occurs while fetching the requested director from the database. 
+ * @returns {Promise<Object>} Containing the requested director if promise resolved.
+ * @throws {Error} If a problem occurs while fetching the requested director from the database or if the user is not logged in.. 
  */
 
 app.get('/movies/director/:Director', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -133,13 +133,13 @@ app.get('/movies/director/:Director', passport.authenticate('jwt', { session: fa
 });
 
 /**
- * GEt route to the index page
+ * GET route to get the requested genre.
  * @function
- * @name indexRout
- * @param {Object} req - Express request object. Parameters?
+ * @name getGenre
+ * @param {Object} req - Express request object. Parameters: {String} Genre - (movie Genre)
  * @param {Object} res - Express response object. 
- * @throws
- * @returns { String } containing the message (Welcome to the best movie search app ever!(Maybe😁))
+ * @returns {Promise<Object>} Containing the requested genre if promise resolved.
+ * @throws {Error} If a problem occurs while fetching the requested genre from the database or if the user is not logged in. 
  */
 
 app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -155,13 +155,14 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
 });
 
 /**
- * GEt route to the index page
+ * POST route to singup as an user to the application.
  * @function
- * @name indexRout
- * @param {Object} req - Express request object. Parameters?
+ * @name signupUser
+ * @param {Object} req - Express request object. 
  * @param {Object} res - Express response object. 
- * @throws
- * @returns { String } containing the message (Welcome to the best movie search app ever!(Maybe😁))
+ * @returns {Promise<Object>} Containing details (Username, Email, Birthday) of the new singed up user if promise resolved.
+ * @throws {Error} If a problem occurs while the user tried to sign up.
+ * @description This route handles user sign-up. It validates the user input, checks for existing usernames, and then creates a new user in the database if the input is valid.
  */
 
 app.post('/users/signup',
@@ -219,19 +220,23 @@ app.post('/users/signup',
     });
 
 /**
- * GEt route to the index page
+ * GET route to get info about the requested user.
  * @function
- * @name indexRout
- * @param {Object} req - Express request object. Parameters?
+ * @name getUserInfo
+ * @param {Object} req - Express request object. Parameters: {String} Username - (user Username)
  * @param {Object} res - Express response object. 
- * @throws
- * @returns { String } containing the message (Welcome to the best movie search app ever!(Maybe😁))
+ * @returns {Promise<Object>} Containing details (Username, Email, Birthday) about the requested user if promise resolved.
+ * @throws {Error} If a problem occurs while fetching infos about the requested user from the database or if the user is not logged in.
  */
 
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOne({ Username: req.params.Username })
         .then((user) => {
-            res.status(201).json(user);
+            res.status(201).json({
+                Username: user.Username,
+                Email: user.Email,
+                Birthday: user.Birthday
+            });
         })
         .catch((err) => {
             console.error(err);
@@ -240,13 +245,14 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
 });
 
 /**
- * GEt route to the index page
+ * PUT route to update user details. 
  * @function
- * @name indexRout
- * @param {Object} req - Express request object. Parameters?
+ * @name updateUserDetails
+ * @param {Object} req - Express request object. Parameters: {String} Username - (user Username)
  * @param {Object} res - Express response object. 
- * @throws
- * @returns { String } containing the message (Welcome to the best movie search app ever!(Maybe😁))
+ * @returns {Promise<Object>} Containing details (Username, Email, Birthday, FavoriteMovies) about the updated user if promise resolved.
+ * @throws {Error} If a problem occurs while updating the user details in the database or if the user is not logged in.
+ * @description This route allows a logged-in user to update their user details such as username (if the username is not in the database yet), email, and birthday. Only the changed details are updated in the database. 
  */
 
 app.put('/users/update/:Username',
@@ -311,13 +317,13 @@ app.put('/users/update/:Username',
     });
 
 /**
- * GEt route to the index page
+ * PUT route to add the requested movie to the user's favorite movies list. 
  * @function
- * @name indexRout
- * @param {Object} req - Express request object. Parameters?
+ * @name addMovie
+ * @param {Object} req - Express request object. Parameters: {String} Username - (user Username), {String} MovieID - (movie ID)
  * @param {Object} res - Express response object. 
- * @throws
- * @returns { String } containing the message (Welcome to the best movie search app ever!(Maybe😁))
+ * @returns {Promise<Object>} Containing details (Username, FavoriteMovies) about the updated user and a message ("Successfully added the movie to the favorite List!") if promise resolved.
+ * @throws {Error} If a problem occurs while adding the movie to the users favorite movies in the database or if the user is not logged in.
  */
 
 app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -343,13 +349,13 @@ app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', { s
 });
 
 /**
- * GEt route to the index page
+ * DELETE route to delete the requested movie from the user's favorite movies list. 
  * @function
- * @name indexRout
- * @param {Object} req - Express request object. Parameters?
+ * @name deleteMovie
+ * @param {Object} req - Express request object. Parameters: {String} Username - (user Username), {String} MovieID - (movie ID)
  * @param {Object} res - Express response object. 
- * @throws
- * @returns { String } containing the message (Welcome to the best movie search app ever!(Maybe😁))
+ * @returns {Promise<Object>} Containing details (Username, FavoriteMovies) about the updated user and a message ("Successfully deleted the movie from the favorite list!") if promise resolved.
+ * @throws {Error} If a problem occurs while removing the movie from the users favorite movies in the database or if the user is not logged in.
  */
 
 app.delete('/users/:Username/movies/remove/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
@@ -375,13 +381,13 @@ app.delete('/users/:Username/movies/remove/:MovieID', passport.authenticate('jwt
 });
 
 /**
- * GEt route to the index page
+ * DELETE user from the database.
  * @function
- * @name indexRout
- * @param {Object} req - Express request object. Parameters?
+ * @name deleteUser
+ * @param {Object} req - Express request object. Parameters: {String} Username - (user Username)
  * @param {Object} res - Express response object. 
- * @throws
- * @returns { String } containing the message (Welcome to the best movie search app ever!(Maybe😁))
+ * @returns {Promise<String>} Containing the message ("User with Username: ' + req.params.Username + ' was deleted") if promise resolved.
+ * @throws {Error} If a problem occurs while removing the user from the database or if the user is not logged in.
  */
 
 app.delete('/users/deregister/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
