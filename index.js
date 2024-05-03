@@ -61,7 +61,6 @@ app.use(morgan('combined', { stream: accessLogStream }));
  * @param {Object} res - Express response object. 
  * @returns {String} Containing the message ("Welcome to the best movie search app ever!(Maybe😁))
  */
-
 app.get('/', (req, res) => {
     res.send('Welcome to the best movie search app ever!(Maybe😁)');
 });
@@ -75,7 +74,6 @@ app.get('/', (req, res) => {
  * @returns {Promise<Object[]>} Containing an array of all fetched movies from the database if promise resolved.
  * @throws {Error} If a problem occurs while fetching the movies from the database or if the user is not logged in.   
  */
-
 // applies the jwt authentication to every route, except register 
 app.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
@@ -97,7 +95,6 @@ app.get('/movies', passport.authenticate('jwt', { session: false }), async (req,
  * @returns {Promise<Object>} Containing the requested movie if promise resolved.
  * @throws {Error} If a problem occurs while fetching the requested movie from the database or if the user is not logged in.. 
  */
-
 app.get('/movies/title/:Title', passport.authenticate('jwt', { session: false }), async (req, res) => {
     try {
         const foundMovie = await Movies.findOne({ Title: req.params.Title })
@@ -120,7 +117,6 @@ app.get('/movies/title/:Title', passport.authenticate('jwt', { session: false })
  * @returns {Promise<Object>} Containing the requested director if promise resolved.
  * @throws {Error} If a problem occurs while fetching the requested director from the database or if the user is not logged in.. 
  */
-
 app.get('/movies/director/:Director', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Director.Name': req.params.Director }, 'Director')
         .then((movies) => {
@@ -141,7 +137,6 @@ app.get('/movies/director/:Director', passport.authenticate('jwt', { session: fa
  * @returns {Promise<Object>} Containing the requested genre if promise resolved.
  * @throws {Error} If a problem occurs while fetching the requested genre from the database or if the user is not logged in. 
  */
-
 app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false }), async (req, res) => {
     // Genre.Name from DB -> req.params.Genre -> Genre from URL
     await Movies.findOne({ 'Genre.Name': req.params.Genre }, 'Genre')
@@ -164,7 +159,6 @@ app.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false })
  * @throws {Error} If a problem occurs while the user tried to sign up.
  * @description This route handles user sign-up. It validates the user input, checks for existing usernames, and then creates a new user in the database if the input is valid.
  */
-
 app.post('/users/signup',
     // use express validation methods
     [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
@@ -228,7 +222,6 @@ app.post('/users/signup',
  * @returns {Promise<Object>} Containing details (Username, Email, Birthday) about the requested user if promise resolved.
  * @throws {Error} If a problem occurs while fetching infos about the requested user from the database or if the user is not logged in.
  */
-
 app.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOne({ Username: req.params.Username })
         .then((user) => {
@@ -254,7 +247,6 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
  * @throws {Error} If a problem occurs while updating the user details in the database or if the user is not logged in.
  * @description This route allows a logged-in user to update their user details such as username (if the username is not in the database yet), email, and birthday. Only the changed details are updated in the database. 
  */
-
 app.put('/users/update/:Username',
     [check('Username', 'The user name is required and must be at least 5 characters long').isLength({ min: 5 }),
     check('Username', 'Username contains non alphanumeric characters - not allowed.').isAlphanumeric()
@@ -325,7 +317,6 @@ app.put('/users/update/:Username',
  * @returns {Promise<Object>} Containing details (Username, FavoriteMovies) about the updated user and a message ("Successfully added the movie to the favorite List!") if promise resolved.
  * @throws {Error} If a problem occurs while adding the movie to the users favorite movies in the database or if the user is not logged in.
  */
-
 app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     if (req.user.Username !== req.params.Username) {
         return res.status(400).send('Permission denied!')
@@ -357,7 +348,6 @@ app.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', { s
  * @returns {Promise<Object>} Containing details (Username, FavoriteMovies) about the updated user and a message ("Successfully deleted the movie from the favorite list!") if promise resolved.
  * @throws {Error} If a problem occurs while removing the movie from the users favorite movies in the database or if the user is not logged in.
  */
-
 app.delete('/users/:Username/movies/remove/:MovieID', passport.authenticate('jwt', { session: false }), async (req, res) => {
     if (req.user.Username !== req.params.Username) {
         return res.status(400).send('Permission denied!')
@@ -389,7 +379,6 @@ app.delete('/users/:Username/movies/remove/:MovieID', passport.authenticate('jwt
  * @returns {Promise<String>} Containing the message ("User with Username: ' + req.params.Username + ' was deleted") if promise resolved.
  * @throws {Error} If a problem occurs while removing the user from the database or if the user is not logged in.
  */
-
 app.delete('/users/deregister/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     if (req.user.Username !== req.params.Username) {
         return res.status(400).send('Permission denied!');
