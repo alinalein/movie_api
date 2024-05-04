@@ -228,7 +228,9 @@ app.get('/users/:Username', passport.authenticate('jwt', { session: false }), as
             res.status(201).json({
                 Username: user.Username,
                 Email: user.Email,
-                Birthday: user.Birthday
+                Birthday: user.Birthday,
+                FavoriteMovies: user.FavoriteMovies
+
             });
         })
         .catch((err) => {
