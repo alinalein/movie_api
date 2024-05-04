@@ -32,6 +32,9 @@ npm dev
 ## API Endpoints 🔍
 [Documentation for the API](https://movie-api-lina-834bc70d6952.herokuapp.com/documentation.html)
 
+Additional documentation can be found in the 'docs' folder.
+**JSDoc :**  Tool for documentaion of JavaScript code. Used to generate API documentation from code comments.
+
 - `/movies` : Return a list of ALL movies
 - `/movies/title/[Title]` : Return data about a single movie by title
 - `/movies/genre/[Genre]` : Return data about a genre by name
