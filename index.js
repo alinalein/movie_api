@@ -14,6 +14,7 @@ const express = require('express'),
 
 const { check, validationResult } = require('express-validator');
 require('dotenv').config()
+
 // to connect Mongoose to local DB-> mongoose.connect('mongodb://localhost:27017/movies_apiDB');
 // connects Mongoose to the DB in Mongo Atlas 
 mongoose.connect(process.env.CONNECTION_URI);
@@ -399,7 +400,6 @@ app.delete('/users/deregister/:Username', passport.authenticate('jwt', { session
         return res.status(400).send('User couldn\'t be deleted-Err: ' + err);
     }
 });
-
 
 app.use((err, req, res) => {
     console.error(err.stack);
