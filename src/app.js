@@ -9,7 +9,7 @@ const express = require('express'),
     { connectDB } = require('./config/database'),
     { accessLogStream } = require('./utils/logger')
 
-require('dotenv').config()
+require('dotenv').config() // allows to load the CONNECTION_URI
 
 // mongoose.connect('mongodb://localhost:27017/movies_apiDB'); // to connect Mongoose to local DB
 connectDB(); // database connection

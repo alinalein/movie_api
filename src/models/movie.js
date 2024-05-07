@@ -17,4 +17,5 @@ let movieSchema = mongoose.Schema({
     Featured: Boolean
 });
 
-module.exports = mongoose.model('Movie', movieSchema);
+let Movie = mongoose.model('Movie', movieSchema);
+module.exports.Movie = Movie;

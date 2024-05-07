@@ -1,14 +1,15 @@
-// passport is a authentication middleware for Node.js 
+// passport is a authentication middleware for Node.js
 const passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
-    passportJWT = require('passport-jwt'),
-    UserModel = require('../models/user');
+    userModels = require('../models/user'),
+    passportJWT = require('passport-jwt');
 
-let Users = UserModel.User,
+// users exported and imported from models.js
+let Users = userModels.User,
     JWTStrategy = passportJWT.Strategy,
     ExtractJWT = passportJWT.ExtractJwt;
 
-// configure the local strategy (HTTP-Authentication) with passport 
+// configure the local strategy (HTTP-Authentication) with passport
 passport.use(
     new LocalStrategy(
         {
@@ -42,7 +43,7 @@ passport.use(
     )
 )
 
-// configure the JWT strategy (Token-Based-Authentication) with passport 
+// configure the JWT strategy (Token-Based-Authentication) with passport
 passport.use(new JWTStrategy({
     //defines how the JWT should be extracted from request -> Bearer token
     jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
@@ -51,12 +52,10 @@ passport.use(new JWTStrategy({
 }, async (jwtPayload, callback) => {
     return await Users.findById(jwtPayload._id)
         .then((user) => {
-            // will return null -> no error & the found user 
+            // will return null -> no error & the found user
             return callback(null, user);
         })
         .catch((error) => {
             return callback(error);
         });
 }));
-
-module.exports = passport;
