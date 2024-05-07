@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: movieRoutes.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: movieRoutes.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const passport = require('passport'),
+    express = require('express'),
+    router = express.Router(),
+    MovieModel = require('../models/movie');
+
+let Movies = MovieModel.Movie
+/**
+ * GET route to the index page.
+ * @function
+ * @name indexRoute
+ * @param {Object} req - Express request object. 
+ * @param {Object} res - Express response object. 
+ * @returns {String} Containing the message ("Welcome to the best movie search app ever!(Maybe😁))
+ */
+router.get('/', (req, res) => {
+    res.send('Welcome to the best movie search app ever!(Maybe😁)');
+});
+
+/**
+ * GET route to get all movies.
+ * @function
+ * @name getMovies
+ * @param {Object} req - Express request object. 
+ * @param {Object} res - Express response object. 
+ * @returns {Promise&lt;Object[]>} Containing an array of all fetched movies from the database if promise resolved.
+ * @throws {Error} If a problem occurs while fetching the movies from the database or if the user is not logged in.   
+ */
+// applies the jwt authentication to every route, except register 
+router.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await Movies.find()
+        .then((movies) => {
+            res.status(201).json(movies);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(400).send('An Error occurred: ' + err);
+        })
+});
+
+/**
+ * GEt route to get the requested movie.
+ * @function
+ * @name getMovie
+ * @param {Object} req - Express request object. Parameters: {String} Title - (movie Title)
+ * @param {Object} res - Express response object. 
+ * @returns {Promise&lt;Object>} Containing the requested movie if promise resolved.
+ * @throws {Error} If a problem occurs while fetching the requested movie from the database or if the user is not logged in.. 
+ */
+router.get('/movies/title/:Title', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    try {
+        const foundMovie = await Movies.findOne({ Title: req.params.Title })
+        if (!foundMovie) {
+            return res.status(200).send('Can\'t find a movie with this title: ' + req.params.Title)
+        }
+        res.status(201).json(foundMovie);
+    } catch (err) {
+        console.error(err);
+        res.status(400).send('An Error occurred: ' + err);
+    }
+});
+
+/**
+ * GEt route to get the requested director.
+ * @function
+ * @name getDirector
+ * @param {Object} req - Express request object. Parameters: {String} Director - (movie Director)
+ * @param {Object} res - Express response object. 
+ * @returns {Promise&lt;Object>} Containing the requested director if promise resolved.
+ * @throws {Error} If a problem occurs while fetching the requested director from the database or if the user is not logged in.. 
+ */
+router.get('/movies/director/:Director', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    await Movies.findOne({ 'Director.Name': req.params.Director }, 'Director')
+        .then((movies) => {
+            res.status(201).json(movies.Director);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(400).send('An Error occurred:  ' + err);
+        })
+});
+
+/**
+ * GET route to get the requested genre.
+ * @function
+ * @name getGenre
+ * @param {Object} req - Express request object. Parameters: {String} Genre - (movie Genre)
+ * @param {Object} res - Express response object. 
+ * @returns {Promise&lt;Object>} Containing the requested genre if promise resolved.
+ * @throws {Error} If a problem occurs while fetching the requested genre from the database or if the user is not logged in. 
+ */
+router.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false }), async (req, res) => {
+    // Genre.Name from DB -> req.params.Genre -> Genre from URL
+    await Movies.findOne({ 'Genre.Name': req.params.Genre }, 'Genre')
+        .then((movies) => {
+            res.status(201).json(movies.Genre);
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(400).send('Can\'t find the genre-Err: ' + err);
+        })
+});
+
+module.exports = router;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#addMovie">addMovie</a></li><li><a href="global.html#deleteMovie">deleteMovie</a></li><li><a href="global.html#deleteUser">deleteUser</a></li><li><a href="global.html#getDirector">getDirector</a></li><li><a href="global.html#getGenre">getGenre</a></li><li><a href="global.html#getMovie">getMovie</a></li><li><a href="global.html#getMovies">getMovies</a></li><li><a href="global.html#getUserInfo">getUserInfo</a></li><li><a href="global.html#indexRoute">indexRoute</a></li><li><a href="global.html#loginUser">loginUser</a></li><li><a href="global.html#signupUser">signupUser</a></li><li><a href="global.html#updateUserDetails">updateUserDetails</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue May 07 2024 20:06:06 GMT+0200 (Mitteleuropäische Sommerzeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "nodemon ./src/app.js",
     "start": "node ./src/app.js",
-    "docs": "jsdoc ./src/routes -d docs"
+    "docs": "jsdoc ./src -d docs"
   },
   "keywords": [],
   "author": "",
