@@ -1,10 +1,9 @@
-const jwtSecret = 'your_jwt_secret';
-
-// jsonwebtoken library used for creating and verifying JSON Web Tokens (JWTs) in Node.js 
-const jwt = require('jsonwebtoken'),
+const jwtSecret = 'your_jwt_secret',
+    // jsonwebtoken library used for creating and verifying JSON Web Tokens (JWTs) in Node.js 
+    jwt = require('jsonwebtoken'),
     passport = require('passport');
 
-require('./passport');
+require('../config/passportConfig');
 
 let generateJWTToken = (user) => {
     // jwt.sign(payload, secretKey, options)
