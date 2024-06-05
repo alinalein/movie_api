@@ -9,6 +9,7 @@ const express = require('express'),
     { connectDB } = require('./config/database'),
     { accessLogStream } = require('./utils/logger')
 
+
 require('dotenv').config() // allows to load the CONNECTION_URI
 
 // mongoose.connect('mongodb://localhost:27017/movies_apiDB'); // to connect Mongoose to local DB
@@ -28,7 +29,7 @@ app.use(express.json()); // makes sure express gets to json format
 require('./routes/auth')(app); // (app)-> applies express also to auth.js
 app.use(require('./routes/movieRoutes'));
 app.use(require('./routes/userRoutes'));
-app.use(express.static('public')); // directs to the documentation.html
+app.use(express.static('src/public')); // directs the host provider the documentation.html
 
 app.use((err, req, res) => {
     console.error(err.stack);
