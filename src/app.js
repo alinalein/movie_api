@@ -31,7 +31,7 @@ app.use(require('./routes/movieRoutes'));
 app.use(require('./routes/userRoutes'));
 app.use(express.static('src/public')); // directs the host provider the documentation.html
 
-app.use((err, req, res) => {
+app.use((err, res) => {
     console.error(err.stack);
     res.status(500).send('Internal Server Error');
 });
