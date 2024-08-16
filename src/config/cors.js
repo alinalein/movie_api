@@ -6,7 +6,8 @@ const allowedOrigins = [
     'http://localhost:1234',
     'https://alinalein.github.io',
     'https://movie-api-lina-834bc70d6952.herokuapp.com',
-    'https://myflix-alinalein.netlify.app'
+    'https://myflix-alinalein.netlify.app',
+    'http://my-api-alb.amazonaws.com'
 ];
 
 const applyCORS = {

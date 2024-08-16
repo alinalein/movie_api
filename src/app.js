@@ -15,6 +15,9 @@ require('dotenv').config() // allows to load the CONNECTION_URI
 // mongoose.connect('mongodb://localhost:27017/movies_apiDB'); // to connect Mongoose to local DB
 connectDB(); // database connection
 
+// if want to gnore the request for favicon.ico, has to be placed before all other app.use middleware
+// app.get('/favicon.ico', (req, res) => res.status(204));
+
 app.use(bodyParser.json()); // so I can use req.body 
 
 // request should be logged used the common morgan format & stream specifies to write/log the request details to -> accessLogStream
@@ -22,7 +25,6 @@ app.use(morgan('combined', { stream: accessLogStream }));
 
 // app.use(cors()); // if want to allow access for everyone
 app.use(cors); // use CORS middleware -> access only to specific URLs
-
 
 app.use(express.json()); // makes sure express gets to json format 
 
