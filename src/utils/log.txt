@@ -91,3 +91,7 @@
 127.0.0.1 - - [07/May/2024:17:35:27 +0000] "OPTIONS /users/lina1234 HTTP/1.1" 204 0 "http://localhost:4200/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36"
 127.0.0.1 - - [07/May/2024:17:35:27 +0000] "GET /movies HTTP/1.1" 201 15787 "http://localhost:4200/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36"
 127.0.0.1 - - [07/May/2024:17:35:27 +0000] "GET /users/lina1234 HTTP/1.1" 201 102 "http://localhost:4200/" "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36"
+127.0.0.1 - - [22/Aug/2024:18:53:30 +0000] "GET /images/ HTTP/1.1" 200 1003 "-" "PostmanRuntime/7.41.1"
+127.0.0.1 - - [22/Aug/2024:18:53:33 +0000] "GET /images/Laptop_Daily-practice-00-1.png HTTP/1.1" 200 - "-" "PostmanRuntime/7.41.1"
+127.0.0.1 - - [22/Aug/2024:18:53:46 +0000] "POST /images HTTP/1.1" 500 30 "-" "PostmanRuntime/7.41.1"
+127.0.0.1 - - [22/Aug/2024:18:55:07 +0000] "POST /images HTTP/1.1" 200 53 "-" "PostmanRuntime/7.41.1"
