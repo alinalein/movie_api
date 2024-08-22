@@ -29,7 +29,7 @@ router.get('/', (req, res) => {
 router.get('/movies', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.find()
         .then((movies) => {
-            res.status(201).json(movies);
+            res.status(200).json(movies);
         })
         .catch((err) => {
             console.error(err);
@@ -50,12 +50,12 @@ router.get('/movies/title/:Title', passport.authenticate('jwt', { session: false
     try {
         const foundMovie = await Movies.findOne({ Title: req.params.Title })
         if (!foundMovie) {
-            return res.status(200).send('Can\'t find a movie with this title: ' + req.params.Title)
+            return res.status(404).send('Can\'t find a movie with this title: ' + req.params.Title)
         }
-        res.status(201).json(foundMovie);
+        res.status(200).json(foundMovie);
     } catch (err) {
         console.error(err);
-        res.status(400).send('An Error occurred: ' + err);
+        res.status(500).send('An Error occurred: ' + err);
     }
 });
 
@@ -71,11 +71,11 @@ router.get('/movies/title/:Title', passport.authenticate('jwt', { session: false
 router.get('/movies/director/:Director', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Movies.findOne({ 'Director.Name': req.params.Director }, 'Director')
         .then((movies) => {
-            res.status(201).json(movies.Director);
+            res.status(200).json(movies.Director);
         })
         .catch((err) => {
             console.error(err);
-            res.status(400).send('An Error occurred:  ' + err);
+            res.status(500).send('An Error occurred:  ' + err);
         })
 });
 
@@ -92,11 +92,11 @@ router.get('/movies/genre/:Genre', passport.authenticate('jwt', { session: false
     // Genre.Name from DB -> req.params.Genre -> Genre from URL
     await Movies.findOne({ 'Genre.Name': req.params.Genre }, 'Genre')
         .then((movies) => {
-            res.status(201).json(movies.Genre);
+            res.status(200).json(movies.Genre);
         })
         .catch((err) => {
             console.error(err);
-            res.status(400).send('Can\'t find the genre-Err: ' + err);
+            res.status(500).send('Can\'t find the genre-Err: ' + err);
         })
 });
 

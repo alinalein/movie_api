@@ -31,6 +31,7 @@ app.use(express.json()); // makes sure express gets to json format
 require('./routes/auth')(app); // (app)-> applies express also to auth.js
 app.use(require('./routes/movieRoutes'));
 app.use(require('./routes/userRoutes'));
+app.use(require('./routes/s3Routes'));
 app.use(express.static('src/public')); // directs the host provider the documentation.html
 
 app.use((err, res) => {

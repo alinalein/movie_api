@@ -6,7 +6,6 @@ const passport = require('passport'),
 
 let Users = UserModel.User;
 
-
 /**
  * POST route to singup as an user to the application.
  * @function
@@ -43,7 +42,7 @@ router.post('/users/signup',
         await Users.findOne({ Username: req.body.Username })
             .then((user) => {
                 if (user) {
-                    res.status(401).send('User with ' + req.body.Username + ' already exist');
+                    res.status(409).send('User with ' + req.body.Username + ' already exist');
                 } else {
                     Users.create({
                         Username: req.body.Username,
@@ -83,7 +82,7 @@ router.post('/users/signup',
 router.get('/users/:Username', passport.authenticate('jwt', { session: false }), async (req, res) => {
     await Users.findOne({ Username: req.params.Username })
         .then((user) => {
-            res.status(201).json({
+            res.status(200).json({
                 Username: user.Username,
                 Email: user.Email,
                 Birthday: user.Birthday,
@@ -93,7 +92,7 @@ router.get('/users/:Username', passport.authenticate('jwt', { session: false }),
         })
         .catch((err) => {
             console.error(err);
-            res.status(400).send('An Error occurred: ' + err);
+            res.status(404).send('An Error occurred: ' + err);
         })
 });
 
@@ -140,7 +139,7 @@ router.put('/users/update/:Username',
             const existingUser = await Users.findOne({ Username });
             // if the username already in DB and not owned by current user -> give an error message
             if (existingUser && existingUser.Username !== req.params.Username) {
-                return res.status(401).json({ error: 'Username is already in use.  Please choose another username' });
+                return res.status(409).json({ error: 'Username is already in use.  Please choose another username' });
             }
             // set values only if they are provided in the request body
             const updateFields = {};
@@ -185,7 +184,7 @@ router.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', 
         { $push: { FavoriteMovies: req.params.MovieID } },
         { new: true })
         .then((updatedUser) => {
-            res.status(201).json({
+            res.status(200).json({
                 message: 'Successfully added the movie to the favorite List!\n',
                 updatedUser: {
                     Username: updatedUser.Username,
@@ -246,9 +245,9 @@ router.delete('/users/deregister/:Username', passport.authenticate('jwt', { sess
     try {
         const user = await Users.findOneAndDelete({ Username: req.params.Username });
         if (!user) {
-            return res.status(400).send('No user with Username: ' + req.params.Username + ' found');
+            return res.status(404).send('No user with Username: ' + req.params.Username + ' found');
         } else {
-            return res.status(201).json({
+            return res.status(200).json({
                 message: 'User with Username: ' + req.params.Username + ' was deleted'
             });
         }
