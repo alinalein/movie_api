@@ -6,18 +6,17 @@ const { S3Client, ListObjectsV2Command, PutObjectCommand, GetObjectCommand } = r
     fs = require('fs'),
     fileUpload = require('express-fileupload');
 
-const IMAGES_BUCKET = 'my-cool-local-bucket';
+const IMAGES_BUCKET = process.env.BUCKET_NAME;
 // Define the path to the utils folder for temporary storage
-const UPLOAD_TEMP_PATH = path.join(__dirname, '../utils')
+const UPLOAD_TEMP_PATH = path.join(__dirname, process.env.UPLOAD_TEMP_PATH);
+const AWS_REGION = process.env.AWS_REGION;
 
 // Add command req.files, otherwise it will not be recognized
 router.use(fileUpload());
 
 // Initialize the S3 client
 const s3Client = new S3Client({
-    region: 'us-east-1',
-    endpoint: 'http://localhost:4566',
-    forcePathStyle: true
+    region: AWS_REGION
 });
 
 // Listing all objects in a S3 bucket
