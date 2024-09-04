@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { S3Client, ListObjectsV2Command, PutObjectCommand, GetObjectCommand, HeadObjectCommand } = require('@aws-sdk/client-s3'),
+const { S3Client, ListObjectsV2Command, PutObjectCommand, GetObjectCommand } = require('@aws-sdk/client-s3'),
     express = require('express'),
     router = express.Router(),
     path = require('path'),
@@ -64,30 +64,6 @@ router.post('/images', passport.authenticate('jwt', { session: false }), async (
             res.status(500).send('The file could not be uploaded')
         }
         try {
-
-            // Check if the file already exists in S3
-            const headObjectParams = {
-                Bucket: IMAGES_BUCKET,
-                // Key: `resized-images/${fileName}`
-                Key: `original-images/${fileName}`,
-            };
-            const headObjectCmd = new HeadObjectCommand(headObjectParams);
-
-            try {
-                await s3Client.send(headObjectCmd);
-                // If no error, the file exists
-                fs.unlinkSync(tempPath); // Clean up the temp file
-                return res.status(409).send({ message: `File ${fileName} already exists.` });
-            } catch (err) {
-                if (err.name !== 'NotFound') {
-                    // If the error is not "NotFound", something else went wrong
-                    console.error('Error checking if file exists in S3:', err);
-                    fs.unlinkSync(tempPath); // Clean up the temp file
-                    return res.status(500).send('An error occurred while checking the file.');
-                }
-                // If "NotFound", it means the file does not exist,  proceed
-            }
-
             // Read the file from the temporary path
             const fileData = fs.readFileSync(tempPath);
             // Determine file content type based on file extension
