@@ -7,7 +7,9 @@ const allowedOrigins = [
     'https://alinalein.github.io',
     'https://movie-api-lina-834bc70d6952.herokuapp.com',
     'https://myflix-alinalein.netlify.app',
-    'http://my-api-alb.amazonaws.com'
+    'http://my-api-alb.amazonaws.com',
+    //If http://myflix--bucket.s3-website.eu-central-1.amazonaws.com/  will not work because of the /
+    'http://myflix--bucket.s3-website.eu-central-1.amazonaws.com'
 ];
 
 const applyCORS = {

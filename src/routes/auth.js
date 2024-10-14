@@ -52,8 +52,9 @@ module.exports = (router) => {
                 };
                 // after login was successful return this data
                 return res.status(201).json({
+                    status: 'Successfully logged in!',
                     user: responseUser,
-                    token: token
+                    // token: token
                 });
             });
         })(req, res);
