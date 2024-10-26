@@ -2,13 +2,13 @@
 This API gives users access to details about various movies, directors and genres. Users will be able to sign up, update their personal information, delete their profile and create a list of their favorite movies.
 
 ## Technology Stack 🛠️
-- **Node.js** : Runtime for server-side JavaScript, designed for scalability
-- **Express.js** : Web framework for Node.js, streamlining web app development
-- **MongoDB** : NoSQL database, flexible and scalable with JSON-like documents
-- **Mongoose** : MongoDB and Node.js ODM, simplifying data modeling
-- **JWT (JSON Web Token)** : Compact, secure token for representing claims between parties
-- **Postman** : API development platform, streamlining testing and debugging
-- **Heroku** : Cloud platform for deploying and managing applications
+◦❍ **Node.js** : Runtime for server-side JavaScript, designed for scalability  
+◦❍ **Express.js** : Web framework for Node.js, streamlining web app development  
+◦❍ **MongoDB** : NoSQL database, flexible and scalable with JSON-like documents  
+◦❍ **Mongoose** : MongoDB and Node.js ODM, simplifying data modeling  
+◦❍ **JWT (JSON Web Token)** : Compact, secure token for representing claims between parties  
+◦❍ **Postman** : API development platform, streamlining testing and debugging  
+◦❍ **Heroku** : Cloud platform for deploying and managing applications  
 
 ## Getting started 😎
 
@@ -61,6 +61,15 @@ Postman was used for testing. To test your API, please open the postman-tests fo
  As a user, I want to sign in/sign up to the application so I can save data about my favorite movies.
  
  As a user, I want to access details about movies, directors, and genres so that I will be able to see information about movies I am interessted in. 
+
+<!-- using two spaces at end of each line, forces markdown to start a new line -->
+ ## Features ✅
+❍  Provide a list of all movies.  
+❍  Retrieve detailed information about a specific movie, genre, or director.  
+❍  Allow new users to sign up and manage their account info.  
+❍ Enable users to add or remove movies from their favorites.  
+❍  Allow users to delete their account.  
+ 
 
 ## Link to the live API 🎞️
 https://movie-api-lina-834bc70d6952.herokuapp.com/
