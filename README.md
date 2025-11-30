@@ -50,12 +50,52 @@ Additional documentation can be found in the 'docs' folder.
 ## Test your API ⚙️
 Postman was used for testing. To test your API, please open the postman-tests folder in the project and import the file into your Postman client. 
 
-## Deploy your application
-1. Install [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli#download-and-install)
-2. Log in to your Heroku Account. Run in your terminal `heroku login`
-3. From the application directory run `heroku create`, to create an empy project in Heroku
-4. Commit all your changes to your main repository, run `git commit -m" reason for commit"`
-5. Now push your application to the created Heroku folder, run `git push heroku main`
+## Deploy your application to Google Cloud
+1. Make sure the Google Cloud SDK is installed
+Download & install: [Google SKD](https://cloud.google.com/sdk/docs/install)
+Then log in
+```bash
+gcloud auth login
+```
+
+2. Set your Google Cloud project
+ <br/>
+Replace <PROJECT_ID> with your own project ID:
+
+```bash
+gcloud config set project <PROJECT_ID>
+```
+
+3. Build your Docker image
+ <br/>
+
+**REGION** → e.g. europe-north1<br/>
+**PROJECT_ID** → your GCP project<br/>
+**REPO_NAME** → your Artifact Registry repo<br/>
+**IMAGE_NAME** → name for your container image<br/>
+
+From the root of your project:
+```bash
+docker build -t <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPO_NAME>/<IMAGE_NAME>:latest -f Dockerfile .
+```
+
+4. Push the image to Artifact Registry
+```bash
+docker push <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPO_NAME>/<IMAGE_NAME>:latest
+```
+5. Deploy to Cloud Run
+<br/>
+
+**SERVICE_NAME** → the name of your Cloud Run service<br/>
+
+```bash
+gcloud run deploy <SERVICE_NAME> \
+  --image <REGION>-docker.pkg.dev/<PROJECT_ID>/<REPO_NAME>/<IMAGE_NAME>:latest \
+  --region <REGION> \
+  --platform managed \
+  --allow-unauthenticated
+```
+6. After deployment, Google Cloud will give you a public URL for your API.
    
  ## User Stories 💃 🕺
  As a user, I want to sign in/sign up to the application so I can save data about my favorite movies.
@@ -72,4 +112,4 @@ Postman was used for testing. To test your API, please open the postman-tests fo
  
 
 ## Link to the live API 🎞️
-https://movie-api-lina-834bc70d6952.herokuapp.com/
+[https://movie-api-lina-834bc70d6952.herokuapp.com/](https://my-flix-api-267292098478.europe-north1.run.app)
