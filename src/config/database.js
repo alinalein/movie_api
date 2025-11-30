@@ -16,3 +16,7 @@ const connectDB = async () => {
 
 module.exports = { connectDB };
 
+// Export a single function
+// ->	module.exports = connectToDB	 - import then via -> const connectToDB = require(...)
+// Export multiple utilities
+// -> module.exports = { connectToDB, anotherFunc }	- import then via -> const { connectToDB } = require(...)
