@@ -120,6 +120,9 @@ router.put('/users/update/:Username',
 
     passport.authenticate('jwt', { session: false }), async (req, res) => {
 
+        // req.user.Username → the currently logged-in user's username, coming from the JWT token (via passport.authenticate('jwt'))
+        // req.params.Username → the username from the URL -> that is plugged in as :Username - case sentiv -> username would not work as Username in params capital 
+        // so user that sents the request is not allowed to change data from another ueser in the DB
         if (req.user.Username !== req.params.Username) {
             return res.status(400).send('Permission denied!')
         }
@@ -137,6 +140,7 @@ router.put('/users/update/:Username',
 
             // check if new username already in the BD 
             const existingUser = await Users.findOne({ Username });
+            // checks first if the username from body in DB , if is null - existingUser - this condition is not met and it will not even compare the names
             // if the username already in DB and not owned by current user -> give an error message
             if (existingUser && existingUser.Username !== req.params.Username) {
                 return res.status(409).json({ error: 'Username is already in use.  Please choose another username' });
@@ -181,6 +185,7 @@ router.put('/users/:Username/movies/add/:MovieID', passport.authenticate('jwt', 
         return res.status(400).send('Permission denied!')
     }
     await Users.findOneAndUpdate({ Username: req.params.Username },
+        // better to use $addToSet , as this prevents duplicates in array, $push push item to array no matter if already in array or not 
         { $push: { FavoriteMovies: req.params.MovieID } },
         { new: true })
         .then((updatedUser) => {
@@ -212,7 +217,9 @@ router.delete('/users/:Username/movies/remove/:MovieID', passport.authenticate('
         return res.status(400).send('Permission denied!')
     }
     await Users.findOneAndUpdate({ Username: req.params.Username },
+        // pull used to remove an item from an array , dont need to use map 
         { $pull: { FavoriteMovies: req.params.MovieID } },
+        // new true makes sure that the returned user is the updated version, as per default it returns not the updated version
         { new: true })
         .then((updatedUser) => {
             res.status(200).json({

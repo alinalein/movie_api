@@ -13,7 +13,7 @@ const express = require('express'),
 require('dotenv').config() // allows to load the CONNECTION_URI
 
 // mongoose.connect('mongodb://localhost:27017/movies_apiDB'); // to connect Mongoose to local DB
-connectDB(); // database connection
+connectDB(); // database connection- if connection cant be made, the server will not run , as it is first in the code 
 
 // if want to gnore the request for favicon.ico, has to be placed before all other app.use middleware
 // app.get('/favicon.ico', (req, res) => res.status(204));
@@ -39,8 +39,10 @@ app.use((err, res) => {
     res.status(500).send('Internal Server Error');
 });
 
-// checks port number of hosting service -> if there is none, server will use port 8080 
-const port = process.env.PORT || 8080;
+// checks port number of hosting service, like heroku -> if there is none, server will use port 8080 
+const port = process.env.PORT || 8080; // as 3000 often used by font end 
+
+// 0000 allows to acces app from other IPs than only my laptop, like phone or heroku
 app.listen(port, '0.0.0.0', () => {
     console.log('Listening on Port ' + port);
 });
