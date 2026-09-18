@@ -1,11 +1,10 @@
 const cors = require('cors');
 
 const allowedOrigins = [
-    'http://localhost:8080',
-    'http://localhost:4200',
-    'http://localhost:1234',
+    'http://localhost:8081',            // Vue lokal
+    'http://localhost:4200',         // Angular lokal
+    'http://localhost:1234',         // React lokal 
     'https://alinalein.github.io',
-    'https://movie-api-lina-834bc70d6952.herokuapp.com',
     'https://myflix-alinalein.netlify.app',
     'http://my-api-alb.amazonaws.com'
 ];
