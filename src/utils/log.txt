@@ -131,6 +131,7 @@
 127.0.0.1 - - [30/Nov/2025:15:32:35 +0000] "GET /movies HTTP/1.1" 200 15921 "http://localhost:4200/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
 127.0.0.1 - - [30/Nov/2025:15:34:36 +0000] "OPTIONS /movies HTTP/1.1" 204 0 "http://localhost:4200/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
 127.0.0.1 - - [30/Nov/2025:15:34:37 +0000] "GET /movies HTTP/1.1" 304 - "http://localhost:4200/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/142.0.0.0 Safari/537.36"
+<<<<<<< HEAD
 127.0.0.1 - - [16/Sep/2026:09:46:15 +0000] "GET / HTTP/1.1" 200 53 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 127.0.0.1 - - [16/Sep/2026:09:46:15 +0000] "GET /favicon.ico HTTP/1.1" 200 47470 "http://localhost:8080/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 127.0.0.1 - - [16/Sep/2026:10:34:30 +0000] "OPTIONS /users/signup HTTP/1.1" 204 0 "-" "curl/8.7.1"
@@ -144,3 +145,5 @@
 127.0.0.1 - - [16/Sep/2026:17:01:07 +0000] "POST /users/login HTTP/1.1" 201 572 "http://localhost:1234/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 127.0.0.1 - - [16/Sep/2026:17:01:07 +0000] "OPTIONS /movies HTTP/1.1" 204 0 "http://localhost:1234/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
 127.0.0.1 - - [16/Sep/2026:17:01:07 +0000] "GET /movies HTTP/1.1" 304 - "http://localhost:1234/" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/152.0.0.0 Safari/537.36"
+=======
+>>>>>>> a57e6569ebce152989651c1a03e24b7238682aba
