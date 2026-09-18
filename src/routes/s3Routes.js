@@ -6,7 +6,7 @@ const { S3Client, ListObjectsV2Command, PutObjectCommand, GetObjectCommand } = r
     fs = require('fs'),
     fileUpload = require('express-fileupload');
 
-const IMAGES_BUCKET = 'my-cool-local-bucket';
+const IMAGES_BUCKET = process.env.BUCKET_NAME || 'my-cool-local-bucket';
 // Define the path to the utils folder for temporary storage
 const UPLOAD_TEMP_PATH = path.join(__dirname, '../utils')
 
@@ -14,6 +14,7 @@ const UPLOAD_TEMP_PATH = path.join(__dirname, '../utils')
 router.use(fileUpload());
 
 // Initialize the S3 client
+// A local AWS S3 emulator for development on computer
 const s3Client = new S3Client({
     region: 'us-east-1',
     endpoint: 'http://localhost:4566',

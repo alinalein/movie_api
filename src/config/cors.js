@@ -1,12 +1,11 @@
 const cors = require('cors');
 
 const allowedOrigins = [
-    'http://localhost:8081',            // Vue lokal
-    'http://localhost:4200',         // Angular lokal
-    'http://localhost:1234',         // React lokal 
+    'http://localhost:8081',         // Vue local
+    'http://localhost:4200',         // Angular local
+    'http://localhost:1234',         // React local
     'https://alinalein.github.io',
-    'https://myflix-alinalein.netlify.app',
-    'http://my-api-alb.amazonaws.com'
+    'https://myflix-alinalein.netlify.app'
 ];
 // 1. CORS config:
 const applyCORS = {
